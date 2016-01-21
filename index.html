@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<base href="/base/">
+	<title></title>
+
+	<!-- Modules -->
+	<script src="assets/bower_components/angular/angular.min.js"></script>
+	<script src="assets/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	
+	<!-- Bootstrap app -->
+	<script src="App/app.js"></script>
+	<script src="App/app.config.js"></script>
+	<script src="App/app.route.config.js"></script>
+	<script src="App/core/routing/core.module.routing.js"></script>
+	<script src="App/core/routing/core.routing.js"></script>
+
+
+	<!-- Tasks -->
+	<script src="App/Tasks/index/tasks.indexCtrl.js"></script>
+	<script src="App/Tasks/store/tasks.storeCtrl.js"></script>
+	<script src="App/Tasks/show/tasks.showCtrl.js"></script>
+	<script src="App/Tasks/update/tasks.updateCtrl.js"></script>
+	<script src="App/Tasks/destroy/tasks.destroyCtrl.js"></script>
+	<script src="App/Tasks/tasks.factory.js"></script>
+	<script src="App/Tasks/tasks.route.js"></script>
+
+	<!-- Users -->
+	<script src="App/Users/index/users.indexCtrl.js"></script>
+	<script src="App/Users/store/users.storeCtrl.js"></script>
+	<script src="App/Users/show/users.showCtrl.js"></script>
+	<script src="App/Users/update/users.updateCtrl.js"></script>
+	<script src="App/Users/destroy/users.destroyCtrl.js"></script>
+	<script src="App/Users/users.factory.js"></script>
+	<script src="App/Users/users.route.js"></script>
+
+</head>
+<body>
+
+<a ui-sref="tasks-index">todo</a>
+
+<a ui-sref="users-index">user</a>
+
+<div ui-view></div>
+
+</body>
+</html>
