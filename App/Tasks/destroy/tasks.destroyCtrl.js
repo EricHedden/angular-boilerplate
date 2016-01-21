@@ -22,7 +22,7 @@
 
         // Define the tasksDestroy functions that will be passed to the view
         tasksDestroy.tasks = [];                                                // Array for list of tasks
-        tasksDestroy.destroy = destroy;                                         // function for delete a resource
+        tasksDestroy.destroy = destroy;                                         // Delete a resource
 
 
         /*
@@ -52,14 +52,13 @@
         function initLog() {
 
             console.log('tasksDestroyCtrl init');
-
         }
 
 
-        // Get all tasksDestroys.
+        // Delete a resource
         function destroy(id) {
 
-            return tasksDestroyFactory.destroy(id).then(function(data) {
+            return tasksFactory.destroy(id).then(function(data) {
 
                 // Custom function for success handling
             	alert('Custom success function goes here');

@@ -10,8 +10,6 @@
 	
 	<!-- Bootstrap app -->
 	<script src="App/app.js"></script>
-	<script src="App/app.config.js"></script>
-	<script src="App/app.route.config.js"></script>
 	<script src="App/core/routing/core.module.routing.js"></script>
 	<script src="App/core/routing/core.routing.js"></script>
 
@@ -37,9 +35,28 @@
 </head>
 <body>
 
-<a ui-sref="tasks-index">todo</a>
+<a ui-sref="tasks-index">task index</a>
+<br>
+<a ui-sref="tasks-show">task show</a>
+<br>
+<a ui-sref="tasks-store">task store</a>
+<br>
+<a ui-sref="tasks-destroy">task destroy</a>
+<br>
+<a ui-sref="tasks-update">task update</a>
 
-<a ui-sref="users-index">user</a>
+<br><br><br>
+
+<a ui-sref="users-index">user index</a>
+<br>
+<a ui-sref="users-show">user show</a>
+<br>
+<a ui-sref="users-store">user store</a>
+<br>
+<a ui-sref="users-destroy">user destroy</a>
+<br>
+<a ui-sref="users-update">user update</a>
+<br>
 
 <div ui-view></div>
 

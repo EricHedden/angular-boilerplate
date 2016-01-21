@@ -9,11 +9,11 @@
 
 
     // Inject dependecies in the usersIndexCtrl
-    usersIndexCtrl.$inject = ['$http', 'usersFactory'];
+    usersIndexCtrl.$inject = ['usersFactory'];
 
     
     // Define the usersIndexCtrl
-    function usersIndexCtrl($http, usersFactory) {
+    function usersIndexCtrl(usersFactory) {
 
 
         // Define usersIndex as this for ControllerAs and auto-$scope
@@ -21,8 +21,7 @@
 
 
         // Define the usersIndex functions that will be passed to the view
-        usersIndex.users = [];                                     // Array for list of usersIndexs
-        usersIndex.index = index;                                           // Get all resouces and pass them to usersIndex.users
+        usersIndex.users = [];                                              // Array for list of users
 
 
         /*
@@ -36,7 +35,7 @@
         
 
         initLog();
-
+        index()
 
         /*
         |--------------------------------------------------------------------------
@@ -52,11 +51,10 @@
         function initLog() {
 
             console.log('usersIndexCtrl init');
-
         }
 
 
-        // Get all usersIndexs.
+        // Get all users.
         function index() {
 
             return usersFactory.index().then(function(data) {

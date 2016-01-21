@@ -22,8 +22,6 @@
 
         // Define the tasksIndex functions that will be passed to the view
         tasksIndex.tasks = [];                                     // Array for list of tasksIndexs
-        tasksIndex.index = index;                                           // Get all resouces and pass them to tasksIndex.tasks
-
 
         /*
         |--------------------------------------------------------------------------
@@ -36,7 +34,7 @@
         
 
         initLog();
-
+        index();
 
         /*
         |--------------------------------------------------------------------------
@@ -52,7 +50,6 @@
         function initLog() {
 
             console.log('tasksIndexCtrl init');
-
         }
 
 
