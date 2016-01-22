@@ -8,6 +8,10 @@
 	    .run(tasksRoute);
 
 
+    // Inject dependecies in the tasksRoute
+	tasksRoute.$inject = ['routerHelper'];
+
+
 	// Define the tasksRoute
     function tasksRoute(routerHelper) {
 

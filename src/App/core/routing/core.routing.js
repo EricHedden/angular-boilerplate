@@ -24,7 +24,7 @@
 
 
 		// Declare the otherwise, go here if no state is found
-		$urlRouterProvider.otherwise('/404');
+		//$urlRouterProvider.otherwise('/404');
 
 
     	// Inject dependecies in the RouterHelper

@@ -8,6 +8,10 @@
 	    .run(usersRoute);
 
 
+    // Inject dependecies in the usersRoute
+	usersRoute.$inject = ['routerHelper'];
+
+
 	// Define the usersRoute
     function usersRoute(routerHelper) {
 

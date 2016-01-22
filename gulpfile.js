@@ -1,23 +1,35 @@
-{
-  "name": "angular-boilerplate",
-  "version": "1.0.0",
-  "description": "A simple AngularJS Boilerplate based on JohnPapa style guide",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/damianopetrungaro/AngularJS-boilerplate.git"
-  },
-  "author": "Damiano Petrungaro",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/damianopetrungaro/AngularJS-boilerplate/issues"
-  },
-  "homepage": "https://github.com/damianopetrungaro/AngularJS-boilerplate#readme",
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-uglify": "^1.5.1"
-  }
-}
+
+var gulp =    		require('gulp'),
+    uglify =  		require('gulp-uglify'),
+    concat = 		require('gulp-concat'),
+    livereload = 	require('gulp-livereload');
+
+
+// Define default task for gulp
+gulp.task('default',['scripts', 'watch']);
+
+
+// Minify and concat angular app
+gulp.task('scripts', function() {
+
+	// log
+	console.log('Working on scripts');
+
+
+	gulp.src('src/App/**/*.js')				// Get all file in the folder App
+		.pipe(concat('app.js'))				// Concat all file in once
+		.pipe(uglify())						// Minify the code
+		.pipe(gulp.dest('src/assets/js'))	// Put file into js folder
+		.pipe(livereload());				// Reload page
+});
+
+
+// Watch tasks
+gulp.task('watch', function(){
+
+	// Listen for livereload
+	var server = livereload.listen();
+
+	// For every app change, reload js and refresh page
+	gulp.watch('src/App/**/*.js', ['scripts']);
+});
