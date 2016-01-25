@@ -58,10 +58,11 @@
         // Get the user
         function show(id) {
 
-            return usersFactory.show(id).then(function(data) {
+            return usersFactory.show(1).then(function(data) {
 
             	// Assign data to array and return them
 	            usersFactory.user = data;
+                console.log(data);
 	            return usersShow.user;
 
             }, function(data) {

@@ -60,13 +60,14 @@
             return usersFactory.index().then(function(data) {
 
             	// Assign data to array and return them
-	            usersFactory.users = data;
+	            usersFactory.users = data.data;
+                console.log('utenti', usersFactory.users);
 	            return usersIndex.users;
 
             }, function(data) {
 
             	// Custom function for error handling
-				alert('Custom function goes here');
+                console.log('Errore: ',data);
 
             });
         };

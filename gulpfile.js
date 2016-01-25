@@ -18,7 +18,7 @@ gulp.task('scripts', function() {
 
 	gulp.src('src/App/**/*.js')				// Get all file in the folder App
 		.pipe(concat('app.js'))				// Concat all file in once
-		.pipe(uglify())						// Minify the code
+		//.pipe(uglify())						// Minify the code
 		.pipe(gulp.dest('src/assets/js'))	// Put file into js folder
 		.pipe(livereload());				// Reload page
 });

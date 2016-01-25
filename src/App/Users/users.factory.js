@@ -50,7 +50,7 @@
         function index() {
 
             return $http.get(userBase)
-                        .then(sendToCtrl(response));
+                        .then(function(data){return data});
 
         };
 
@@ -59,7 +59,7 @@
         function show(id) {
 
             return $http.get(userBase + id)
-                        .then(sendToCtrl(response));
+                        .then(function(data){return data.data});
 
         };
 
@@ -68,7 +68,7 @@
         function store(data) {
 
             return $http.post(userBase, data)
-                        .then(sendToCtrl(response));
+                        .then(function(data){return data.data});
 
         };
 
@@ -77,7 +77,7 @@
         function update(id, data) {
 
             return $http.post(userBase + id, data)
-                        .then(sendToCtrl(response));
+                        .then(function(data){return data.data});
 
         };
 
@@ -86,17 +86,10 @@
         function destroy(id) {
 
             return $http.get(userBase + id)
-                        .then(sendToCtrl(response));
+                        .then(function(data){return data.data});
 
         };
 
-
-        // Basic HTTP response to controller 
-        function sendToCtrl(response) {
-
-            return response.data;
-
-        }
     }
 
 })();
