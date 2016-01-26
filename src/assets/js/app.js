@@ -254,6 +254,8 @@
 			// Get a random header
 			var header = randomHeader();
 
+			console.log('as', users);
+
 			// If the result will be 200, execute the operation
 			if(header == 200) {
 
@@ -786,6 +788,72 @@
 
 	'use strict';
 
+	// Define angular core.mocking module
+	angular.module('core.mocking', ['ngMockE2E']);
+
+})();
+(function(){
+
+	'use strict';
+
+	// Pass the mockHelperProvider to the app
+	angular
+		.module('core.mocking')
+		.provider('mockHelper', mockHelperProvider);
+
+
+    // Define the mockHelperProvider
+	function mockHelperProvider() {
+
+		// Holds the service factory function
+		this.$get = MockHelper;
+
+		MockHelper.$inject = ['$httpBackend'];
+
+		// Define the mockHelperProvider
+		function MockHelper($httpBackend) {
+
+			$httpBackend.whenGET(/\.html$/).passThrough();
+
+			// Define the object to return
+			var service = {
+
+				configureMocks: configureMocks,		// Configure all the states for the route
+			};
+
+
+			// Return the object
+			return service;
+
+
+	        /*
+	        |--------------------------------------------------------------------------
+	        | Functions
+	        |--------------------------------------------------------------------------
+	        |
+	        | Declaring all functions used in the MockHelper
+	        |
+	        */
+	       
+
+			// Configure all the mocks for the route
+			function configureMocks(mocks) {
+
+				// Foreach mocks, create a fake backend interaction
+				mocks.forEach(function(mock){
+
+					console.log(mock);
+					$httpBackend.when(mock.method, mock.url).respond(mock.respond);
+				});
+			}
+		}
+	}
+
+})();
+(function(){
+
+	'use strict';
+
 	// Define angular core.routing module
 	angular.module('core.routing', ['ui.router']);
 
@@ -867,72 +935,6 @@
 
 				return $state.get();
 
-			}
-		}
-	}
-
-})();
-(function(){
-
-	'use strict';
-
-	// Define angular core.mocking module
-	angular.module('core.mocking', ['ngMockE2E']);
-
-})();
-(function(){
-
-	'use strict';
-
-	// Pass the mockHelperProvider to the app
-	angular
-		.module('core.mocking')
-		.provider('mockHelper', mockHelperProvider);
-
-
-    // Define the mockHelperProvider
-	function mockHelperProvider() {
-
-		// Holds the service factory function
-		this.$get = MockHelper;
-
-		MockHelper.$inject = ['$httpBackend'];
-
-		// Define the mockHelperProvider
-		function MockHelper($httpBackend) {
-
-			$httpBackend.whenGET(/\.html$/).passThrough();
-
-			// Define the object to return
-			var service = {
-
-				configureMocks: configureMocks,		// Configure all the states for the route
-			};
-
-
-			// Return the object
-			return service;
-
-
-	        /*
-	        |--------------------------------------------------------------------------
-	        | Functions
-	        |--------------------------------------------------------------------------
-	        |
-	        | Declaring all functions used in the MockHelper
-	        |
-	        */
-	       
-
-			// Configure all the mocks for the route
-			function configureMocks(mocks) {
-
-				// Foreach mocks, create a fake backend interaction
-				mocks.forEach(function(mock){
-
-					console.log(mock);
-					$httpBackend.when(mock.method, mock.url).respond(mock.respond);
-				});
 			}
 		}
 	}
