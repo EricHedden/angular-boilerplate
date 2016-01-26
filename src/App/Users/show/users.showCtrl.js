@@ -35,7 +35,8 @@
         
 
         initLog();
-        show($stateParams.id);
+        //show($stateParams.id);
+        show(100);
 
 
         /*
@@ -58,17 +59,16 @@
         // Get the user
         function show(id) {
 
-            return usersFactory.show(1).then(function(data) {
+            return usersFactory.show(id).then(function(data) {
 
             	// Assign data to array and return them
 	            usersFactory.user = data;
-                console.log(data);
 	            return usersShow.user;
 
             }, function(data) {
 
-            	// Custom function for error handling
-				alert('Custom function goes here');
+                // Custom function for error handling
+                console.log('Custom error function goes here');
 
             });
         };

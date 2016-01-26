@@ -76,7 +76,7 @@
         // Update the specified user in storage.
         function update(id, data) {
 
-            return $http.post(userBase + id, data)
+            return $http.put(userBase + id, data)
                         .then(function(data){return data.data});
 
         };
@@ -85,7 +85,7 @@
         // Remove the specified user from storage.
         function destroy(id) {
 
-            return $http.get(userBase + id)
+            return $http.delete(userBase + id)
                         .then(function(data){return data.data});
 
         };

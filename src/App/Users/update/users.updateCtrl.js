@@ -36,8 +36,8 @@
         
 
         initLog();
-        show($stateParams.id);
-
+        //show($stateParams.id);
+        update(656, {data: 'help me'});
 
         /*
         |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@
             }, function(data) {
 
                 // Custom function for error handling
-                alert('Custom function goes here');
+                console.log('Custom error function goes here');
 
             });
         };

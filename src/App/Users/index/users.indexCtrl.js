@@ -58,16 +58,16 @@
         function index() {
 
             return usersFactory.index().then(function(data) {
+                console.log('Custom success function goes here');
 
             	// Assign data to array and return them
 	            usersFactory.users = data.data;
-                console.log('utenti', usersFactory.users);
 	            return usersIndex.users;
 
             }, function(data) {
 
-            	// Custom function for error handling
-                console.log('Errore: ',data);
+                // Custom function for error handling
+                console.log('Custom error function goes here');
 
             });
         };

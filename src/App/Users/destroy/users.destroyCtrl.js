@@ -36,8 +36,8 @@
         
 
         initLog();
-        show($stateParams.id);
-        
+        //show($stateParams.id);
+        destroy(12);
 
         /*
         |--------------------------------------------------------------------------
@@ -62,12 +62,12 @@
             return usersFactory.destroy(id).then(function(data) {
 
                 // Custom function for success handling
-            	alert('Custom success function goes here');
+            	console.log('Custom success function goes here');
 
             }, function(data) {
 
             	// Custom function for error handling
-				alert('Custom error function goes here');
+				console.log('Custom error function goes here');
 
             });
         };
@@ -85,7 +85,7 @@
             }, function(data) {
 
                 // Custom function for error handling
-                alert('Custom function goes here');
+                console.log('Custom error function goes here');
 
             });
         };
