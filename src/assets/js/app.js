@@ -120,16 +120,13 @@
 	// Define the usersMock
     function usersMock(mockHelper) {
 
-    	var users = [{name: 'mario'}, {name: 'luigi'}, {name: 'mirko'}];
-
     	// Intercept all the states and add them to the routing
-    	mockHelper.configureMocks(getMocks(), users);
+    	mockHelper.configureMocks(getMocks());
     }
 
 
     // Define the getMocks
     function getMocks() {
-
 
     	// Object to pass for fake API
 		return [{
@@ -167,129 +164,129 @@
 		    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
 		    respond: updateRespond
 		}]
-	}
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Functions
-    |--------------------------------------------------------------------------
-    |
-    | Declaring all functions used in the usersMock
-    |
-    */
-   
+	    /*
+	    |--------------------------------------------------------------------------
+	    | Functions
+	    |--------------------------------------------------------------------------
+	    |
+	    | Declaring all functions used in the usersMock
+	    |
+	    */
+	   
 
-	// Function for destroy users API
-	function destroyRespond(method, url, data, headers, params) {
+		// Function for destroy users API
+		function destroyRespond(method, url, data, headers, params) {
 
-		// Get a random header
-		var header = randomHeader();
+			// Get a random header
+			var header = randomHeader();
 
-		// If the result will be 200, execute the operation
-		if(header == 200) {
+			// If the result will be 200, execute the operation
+			if(header == 200) {
 
-			// Return the success header
-			return [header, {data: 'yes'}];
+				// Return the success header
+				return [header, {data: 'yes'}];
+			}
+
+			// Return the error header
+			return [header, {error:'error'}];
 		}
 
-		// Return the error header
-		return [header, {error:'error'}];
-	}
 
+		// Function for index users API
+		function indexRespond(method, url, data, headers, params) {
 
-	// Function for index users API
-	function indexRespond(method, url, data, headers, params) {
+			// Get a random header
+			var header = randomHeader();
 
-		// Get a random header
-		var header = randomHeader();
+			// If the result will be 200, execute the operation
+			if(header == 200) {
 
-		// If the result will be 200, execute the operation
-		if(header == 200) {
+				// Return the success header
+				return [header, {data: 'yes'}];
+			}
 
-			// Return the success header
-			return [header, {data: 'yes'}];
+			// Return the error header
+			return [header, {error:'error'}];
 		}
 
-		// Return the error header
-		return [header, {error:'error'}];
-	}
 
+		// Function for show users API
+		function showRespond(method, url, data, headers, params) {
 
-	// Function for show users API
-	function showRespond(method, url, data, headers, params) {
+			// Get a random header
+			var header = randomHeader();
 
-		// Get a random header
-		var header = randomHeader();
+			// If the result will be 200, execute the operation
+			if(header == 200) {
 
-		// If the result will be 200, execute the operation
-		if(header == 200) {
+				// Return the success header
+				return [header, {data: 'yes'}];
+			}
 
-			// Return the success header
-			return [header, {data: 'yes'}];
+			// Return the error header
+			return [header, {error:'error'}];
 		}
 
-		// Return the error header
-		return [header, {error:'error'}];
-	}
 
+		// Function for store users API
+		function storeRespond(method, url, data, headers, params) {
 
-	// Function for store users API
-	function storeRespond(method, url, data, headers, params) {
+			// Get a random header
+			var header = randomHeader();
 
-		// Get a random header
-		var header = randomHeader();
+			// If the result will be 200, execute the operation
+			if(header == 200) {
 
-		// If the result will be 200, execute the operation
-		if(header == 200) {
+				// Return the success header
+				return [header, {data: 'yes'}];
+			}
 
-			// Return the success header
-			return [header, {data: 'yes'}];
+			// Return the error header
+			return [header, {error:'error'}];
 		}
 
-		// Return the error header
-		return [header, {error:'error'}];
-	}
 
+		// Function for update users API
+		function updateRespond(method, url, data, headers, params) {
 
-	// Function for update users API
-	function updateRespond(method, url, data, headers, params) {
+			// Get a random header
+			var header = randomHeader();
 
-		// Get a random header
-		var header = randomHeader();
+			// If the result will be 200, execute the operation
+			if(header == 200) {
 
-		// If the result will be 200, execute the operation
-		if(header == 200) {
+				// Return the success header
+				return [header, {data: 'yes'}];
+			}
 
-			// Return the success header
-			return [header, {data: 'yes'}];
+			// Return the error header
+			return [header, {error:'error'}];
 		}
 
-		// Return the error header
-		return [header, {error:'error'}];
-	}
 
+		// Basic algorithm for random headers 
+		function randomHeader(){
 
-	// Basic algorithm for random headers 
-	function randomHeader(){
+			// Generate a random number from 1 to 10
+			var random = Math.floor((Math.random() * 10) + 1);
 
-		// Generate a random number from 1 to 10
-		var random = Math.floor((Math.random() * 10) + 1);
+			// Return 500 if random is 10
+			if(random == 10) {
 
-		// Return 500 if random is 10
-		if(random == 10) {
+				return 500;
+			}
 
-			return 500;
+			// Return 404 if random is 9
+			if(random == 9) {
+
+				return 404;
+			}
+
+			// Return 200
+			return 200;
 		}
-
-		// Return 404 if random is 9
-		if(random == 9) {
-
-			return 404;
-		}
-
-		// Return 200
-		return 200;
 	}
 
 })();
@@ -789,72 +786,6 @@
 
 	'use strict';
 
-	// Define angular core.mocking module
-	angular.module('core.mocking', ['ngMockE2E']);
-
-})();
-(function(){
-
-	'use strict';
-
-	// Pass the mockHelperProvider to the app
-	angular
-		.module('core.mocking')
-		.provider('mockHelper', mockHelperProvider);
-
-
-    // Define the mockHelperProvider
-	function mockHelperProvider() {
-
-		// Holds the service factory function
-		this.$get = MockHelper;
-
-		MockHelper.$inject = ['$httpBackend'];
-
-		// Define the mockHelperProvider
-		function MockHelper($httpBackend) {
-
-			$httpBackend.whenGET(/\.html$/).passThrough();
-
-			// Define the object to return
-			var service = {
-
-				configureMocks: configureMocks,		// Configure all the states for the route
-			};
-
-
-			// Return the object
-			return service;
-
-
-	        /*
-	        |--------------------------------------------------------------------------
-	        | Functions
-	        |--------------------------------------------------------------------------
-	        |
-	        | Declaring all functions used in the MockHelper
-	        |
-	        */
-	       
-
-			// Configure all the mocks for the route
-			function configureMocks(mocks) {
-
-				// Foreach mocks, create a fake backend interaction
-				mocks.forEach(function(mock){
-
-					console.log(mock);
-					$httpBackend.when(mock.method, mock.url).respond(mock.respond);
-				});
-			}
-		}
-	}
-
-})();
-(function(){
-
-	'use strict';
-
 	// Define angular core.routing module
 	angular.module('core.routing', ['ui.router']);
 
@@ -936,6 +867,72 @@
 
 				return $state.get();
 
+			}
+		}
+	}
+
+})();
+(function(){
+
+	'use strict';
+
+	// Define angular core.mocking module
+	angular.module('core.mocking', ['ngMockE2E']);
+
+})();
+(function(){
+
+	'use strict';
+
+	// Pass the mockHelperProvider to the app
+	angular
+		.module('core.mocking')
+		.provider('mockHelper', mockHelperProvider);
+
+
+    // Define the mockHelperProvider
+	function mockHelperProvider() {
+
+		// Holds the service factory function
+		this.$get = MockHelper;
+
+		MockHelper.$inject = ['$httpBackend'];
+
+		// Define the mockHelperProvider
+		function MockHelper($httpBackend) {
+
+			$httpBackend.whenGET(/\.html$/).passThrough();
+
+			// Define the object to return
+			var service = {
+
+				configureMocks: configureMocks,		// Configure all the states for the route
+			};
+
+
+			// Return the object
+			return service;
+
+
+	        /*
+	        |--------------------------------------------------------------------------
+	        | Functions
+	        |--------------------------------------------------------------------------
+	        |
+	        | Declaring all functions used in the MockHelper
+	        |
+	        */
+	       
+
+			// Configure all the mocks for the route
+			function configureMocks(mocks) {
+
+				// Foreach mocks, create a fake backend interaction
+				mocks.forEach(function(mock){
+
+					console.log(mock);
+					$httpBackend.when(mock.method, mock.url).respond(mock.respond);
+				});
 			}
 		}
 	}
