@@ -3,181 +3,7 @@
 	'use strict';
 
 	// Define angular app module
-	angular.module('app', ['core.routing', 'core.mocking', 'ui.router', 'ngMockE2E']);
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the tasksFactory to the app
-    angular
-        .module('app')
-        .factory('tasksFactory', tasksFactory);
-
-
-    // Inject dependecies in the tasksFactory
-    tasksFactory.$inject = ['$http'];
-
-    
-    // Define the tasksFactory
-    function tasksFactory($http) {
-
-
-        // Define base URI for task
-        var tasksBase = '/api/v1/tasks/';
-
-
-        // Define the tasks factory object to return
-        var tasksFactory = {
-
-            destroy: destroy,
-            index: index,
-            show: show,
-            store: store,
-            update: update,
-
-        };
-
-
-        // Return the tasks factory
-        return tasksFactory;
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the tasksFactory
-        |
-        */
-       
-
-        // Display a listing of tasks.
-        function index() {
-
-            return $http.get(tasksBase)
-                        .then(sendToCtrl(response));
-
-        };
-
-
-        // Display a specified task.
-        function show(id) {
-
-            return $http.get(tasksBase + id)
-                        .then(sendToCtrl(response));
-
-        };
-
-
-        // Store a newly created task in storage.
-        function store(data) {
-
-            return $http.post(tasksBase, data)
-                        .then(sendToCtrl(response));
-
-        };
-
-
-        // Update the specified task in storage.
-        function update(id, data) {
-
-            return $http.post(tasksBase + id, data)
-                        .then(sendToCtrl(response));
-
-        };
-
-
-        // Remove the specified task from storage.
-        function destroy(id) {
-
-            return $http.get(tasksBase + id)
-                        .then(sendToCtrl(response));
-
-        };
-
-
-        // Basic HTTP response to controller 
-        function sendToCtrl(response) {
-
-            return response.data;
-
-        }
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the tasksRoute to the app
-	angular
-	    .module('app')
-	    .run(tasksRoute);
-
-
-    // Inject dependecies in the tasksRoute
-	tasksRoute.$inject = ['routerHelper'];
-
-
-	// Define the tasksRoute
-    function tasksRoute(routerHelper) {
-
-    	// Intercept all the states and add them to the routing
-    	routerHelper.configureStates(getStates());
-    }
-
-
-    // Define the getStates
-    function getStates() {
-
-    	return [{
-
-		    state: 'tasks-index',
-		    config: {
-		        url: '/tasks',
-		        templateUrl: 'App/Tasks/index/tasks.indexView.html',
-		        controller: 'tasksIndexCtrl',
-		        controllerAs: 'tasksIndex'
-		    }
-		}, {
-		    state: 'tasks-store',
-		    config: {
-		        url: '/tasks/store',
-		        templateUrl: 'App/Tasks/store/tasks.storeView.html',
-		        controller: 'tasksStoreCtrl',
-		        controllerAs: 'tasksStore'
-		    }
-		}, {
-		    state: 'tasks-show',
-		    config: {
-		        url: '/tasks/:id',
-		        templateUrl: 'App/Tasks/show/tasks.showView.html',
-		        controller: 'tasksShowCtrl',
-		        controllerAs: 'tasksShow'
-		    }
-		}, {
-		    state: 'tasks-update',
-		    config: {
-		        url: '/tasks/:id/update',
-		        templateUrl: 'App/Tasks/update/tasks.updateView.html',
-		        controller: 'tasksUpdateCtrl',
-		        controllerAs: 'tasksUpdate'
-		    }
-		}, {
-		    state: 'tasks-destroy',
-		    config: {
-		        url: '/tasks/:id/delete',
-		        templateUrl: 'App/Tasks/destroy/tasks.destroyView.html',
-		        controller: 'tasksDestroyCtrl',
-		        controllerAs: 'tasksDestroy'
-		    }
-		}];
-    }
+	angular.module('app', ['core.routing', 'core.mocking', 'ui.router']);
 
 })();
 
@@ -294,8 +120,10 @@
 	// Define the usersMock
     function usersMock(mockHelper) {
 
+    	var users = [{name: 'mario'}, {name: 'luigi'}, {name: 'mirko'}];
+
     	// Intercept all the states and add them to the routing
-    	mockHelper.configureMocks(getMocks());
+    	mockHelper.configureMocks(getMocks(), users);
     }
 
 
@@ -341,6 +169,16 @@
 		}]
 	}
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Functions
+    |--------------------------------------------------------------------------
+    |
+    | Declaring all functions used in the usersMock
+    |
+    */
+   
 
 	// Function for destroy users API
 	function destroyRespond(method, url, data, headers, params) {
@@ -524,390 +362,6 @@
 		    }
 		}]
 	}
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the tasksDestroyCtrl to the app
-    angular
-        .module('app')
-        .controller('tasksDestroyCtrl', tasksDestroyCtrl);
-
-
-    // Inject dependecies in the tasksDestroyCtrl
-    tasksDestroyCtrl.$inject = ['$http', 'tasksFactory'];
-
-    
-    // Define the tasksDestroyCtrl
-    function tasksDestroyCtrl($http, tasksFactory) {
-
-
-        // Define tasksDestroy as this for ControllerAs and auto-$scope
-        var tasksDestroy = this;
-
-
-        // Define the tasksDestroy functions that will be passed to the view
-        tasksDestroy.tasks = [];                                                // Array for list of tasks
-        tasksDestroy.destroy = destroy;                                         // Delete a resource
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the tasksDestroyCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('tasksDestroyCtrl init');
-        }
-
-
-        // Delete a resource
-        function destroy(id) {
-
-            return tasksFactory.destroy(id).then(function(data) {
-
-                // Custom function for success handling
-            	alert('Custom success function goes here');
-
-            }, function(data) {
-
-            	// Custom function for error handling
-				alert('Custom error function goes here');
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the tasksIndexCtrl to the app
-    angular
-        .module('app')
-        .controller('tasksIndexCtrl', tasksIndexCtrl);
-
-
-    // Inject dependecies in the tasksIndexCtrl
-    tasksIndexCtrl.$inject = ['$http', 'tasksFactory'];
-
-    
-    // Define the tasksIndexCtrl
-    function tasksIndexCtrl($http, tasksFactory) {
-
-
-        // Define tasksIndex as this for ControllerAs and auto-$scope
-        var tasksIndex = this;
-
-
-        // Define the tasksIndex functions that will be passed to the view
-        tasksIndex.tasks = [];                                     // Array for list of tasksIndexs
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-        index();
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the tasksIndexCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('tasksIndexCtrl init');
-        }
-
-
-        // Get all tasksIndexs.
-        function index() {
-
-            return tasksFactory.index().then(function(data) {
-
-            	// Assign data to array and return them
-	            tasksFactory.tasks = data;
-	            return tasksIndex.tasks;
-
-            }, function(data) {
-
-            	// Custom function for error handling
-				alert('Custom function goes here');
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the tasksShowCtrl to the app
-    angular
-        .module('app')
-        .controller('tasksShowCtrl', tasksShowCtrl);
-
-
-    // Inject dependecies in the tasksShowCtrl
-    tasksShowCtrl.$inject = ['$http', 'tasksFactory'];
-
-    
-    // Define the tasksShowCtrl
-    function tasksShowCtrl($http, tasksFactory) {
-
-
-        // Define tasksShow as this for ControllerAs and auto-$scope
-        var tasksShow = this;
-
-
-        // Define the tasksShow functions that will be passed to the view
-        tasksShow.task = [];                                                // Array for task
-        tasksShow.show = show;                                              // Get a resouce and pass them to tasksShow.task
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-        tasksShow.show();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the tasksShowCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('tasksShowCtrl init');
-
-        }
-
-
-        // Get all tasksShows.
-        function show() {
-
-            return tasksShowFactory.show(id).then(function(data) {
-
-            	// Assign data to array and return them
-	            tasksFactory.task = data;
-	            return tasksShow.task;
-
-            }, function(data) {
-
-            	// Custom function for error handling
-				alert('Custom function goes here');
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the tasksStoreCtrl to the app
-    angular
-        .module('app')
-        .controller('tasksStoreCtrl', tasksStoreCtrl);
-
-
-    // Inject dependecies in the tasksStoreCtrl
-    tasksStoreCtrl.$inject = ['$http', 'tasksFactory'];
-
-    
-    // Define the tasksStoreCtrl
-    function tasksStoreCtrl($http, tasksFactory) {
-
-
-        // Define tasksStore as this for ControllerAs and auto-$scope
-        var tasksStore = this;
-
-
-        // Define the tasksStore functions that will be passed to the view
-        tasksStore.store = store;                                           // Create a new task
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the tasksStoreCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('tasksStoreCtrl init');
-
-        }
-
-
-        // Get all tasksStores.
-        function store() {
-
-            return tasksStoreFactory.store(data).then(function(data) {
-
-                // Custom function for success handling
-                alert('Custom success function goes here');
-
-            }, function(data) {
-
-                // Custom function for error handling
-                alert('Custom error function goes here');
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the tasksUpdateCtrl to the app
-    angular
-        .module('app')
-        .controller('tasksUpdateCtrl', tasksUpdateCtrl);
-
-
-    // Inject dependecies in the tasksUpdateCtrl
-    tasksUpdateCtrl.$inject = ['$http', 'tasksFactory'];
-
-    
-    // Define the tasksUpdateCtrl
-    function tasksUpdateCtrl($http, tasksFactory) {
-
-
-        // Define tasksUpdate as this for ControllerAs and auto-$scope
-        var tasksUpdate = this;
-
-
-        // Define the tasksUpdate functions that will be passed to the view
-        tasksUpdate.tasks = [];                                     // Array for list of tasksUpdates
-        tasksUpdate.update = update;                                           // Get all resouces and pass them to tasksUpdate.tasks
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-        tasksUpdate.update();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the tasksUpdateCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('tasksUpdateCtrl init');
-
-        }
-
-
-        // Get all tasksUpdates.
-        function update() {
-
-            return tasksUpdateFactory.update().then(function(data) {
-
-                // Custom function for success handling
-                alert('Custom success function goes here');
-
-            }, function(data) {
-
-                // Custom function for error handling
-                alert('Custom error function goes here');
-
-            });
-        };
-    }
 
 })();
 
@@ -1300,12 +754,12 @@
             return usersFactory.update(id, data).then(function(data) {
 
                 // Custom function for success handling
-            	alert('Custom success function goes here');
+            	console.log('Custom success function goes here');
 
             }, function(data) {
 
             	// Custom function for error handling
-				alert('Custom error function goes here');
+				console.log('Custom error function goes here');
 
             });
         };
@@ -1335,9 +789,17 @@
 
 	'use strict';
 
+	// Define angular core.mocking module
+	angular.module('core.mocking', ['ngMockE2E']);
+
+})();
+(function(){
+
+	'use strict';
+
 	// Pass the mockHelperProvider to the app
 	angular
-		.module('app')
+		.module('core.mocking')
 		.provider('mockHelper', mockHelperProvider);
 
 
@@ -1387,14 +849,6 @@
 			}
 		}
 	}
-
-})();
-(function(){
-
-	'use strict';
-
-	// Define angular core.mocking module
-	angular.module('core.mocking', ['ngMockE2E']);
 
 })();
 (function(){

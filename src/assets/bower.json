@@ -16,9 +16,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.8",
-    "angular-route": "~1.4.8",
+    "angular": "~1.4.9",
     "angular-ui-router": "ui-router#~0.2.15",
-    "angular-mocks": "~1.4.9"
+    "angular-mocks": "~1.4.9",
+    "Materialize": "materialize#~0.97.5"
   }
 }

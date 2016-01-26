@@ -4,7 +4,7 @@
 
 	// Pass the mockHelperProvider to the app
 	angular
-		.module('app')
+		.module('core.mocking')
 		.provider('mockHelper', mockHelperProvider);
 
 

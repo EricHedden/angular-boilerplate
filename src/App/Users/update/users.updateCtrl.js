@@ -62,12 +62,12 @@
             return usersFactory.update(id, data).then(function(data) {
 
                 // Custom function for success handling
-            	alert('Custom success function goes here');
+            	console.log('Custom success function goes here');
 
             }, function(data) {
 
             	// Custom function for error handling
-				alert('Custom error function goes here');
+				console.log('Custom error function goes here');
 
             });
         };

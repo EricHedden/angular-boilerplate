@@ -15,28 +15,23 @@
 </head>
 <body>
 
-<a ui-sref="tasks-index">task index</a>
-<br>
-<a ui-sref="tasks-show">task show</a>
-<br>
-<a ui-sref="tasks-store">task store</a>
-<br>
-<a ui-sref="tasks-destroy">task destroy</a>
-<br>
-<a ui-sref="tasks-update">task update</a>
+<header class="main-nav">
+  <nav>
+    <ul>
+      <li> <a href="/base/src/">Home</a> </li>
+    </ul>
 
-<br><br><br>
+    <ul>
+      <li> <a ui-sref="users-index">index</a> </li>
+      <li> <a ui-sref="users-show">show</a> </li>
+      <li> <a ui-sref="users-store">store</a> </li>
+      <li> <a ui-sref="users-destroy">destroy</a> </li>
+      <li> <a ui-sref="users-update">update</a> </li>
+    </ul>
+  </nav>
+</header>
 
-<a ui-sref="users-index">user index</a>
-<br>
-<a ui-sref="users-show">user show</a>
-<br>
-<a ui-sref="users-store">user store</a>
-<br>
-<a ui-sref="users-destroy">user destroy</a>
-<br>
-<a ui-sref="users-update">user update</a>
-<br>
+<h1>Welcome</h1>
 
 <div ui-view></div>
 

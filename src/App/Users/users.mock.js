@@ -15,8 +15,10 @@
 	// Define the usersMock
     function usersMock(mockHelper) {
 
+    	var users = [{name: 'mario'}, {name: 'luigi'}, {name: 'mirko'}];
+
     	// Intercept all the states and add them to the routing
-    	mockHelper.configureMocks(getMocks());
+    	mockHelper.configureMocks(getMocks(), users);
     }
 
 
@@ -62,6 +64,16 @@
 		}]
 	}
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Functions
+    |--------------------------------------------------------------------------
+    |
+    | Declaring all functions used in the usersMock
+    |
+    */
+   
 
 	// Function for destroy users API
 	function destroyRespond(method, url, data, headers, params) {
