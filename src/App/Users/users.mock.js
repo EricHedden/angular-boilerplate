@@ -48,7 +48,8 @@
 		// Function for destroy users API
 		function destroyRespond(method, url, data, headers, params) {
 
-			users.splice(0,1);
+			//users.splice(0,1);
+			console.log(params);
 			// Get a random header
 			var header = randomHeader();
 
@@ -67,7 +68,6 @@
 		// Function for index users API
 		function indexRespond(method, url, data, headers, params) {
 
-			console.log(users);
 			// Get a random header
 			var header = randomHeader();
 
@@ -75,7 +75,7 @@
 			if(header == 200) {
 
 				// Return the success header
-				return [header, {data: 'yes'}];
+				return [header, {data: users}];
 			}
 
 			// Return the error header
@@ -92,8 +92,11 @@
 			// If the result will be 200, execute the operation
 			if(header == 200) {
 
+				// Get the data to return
+				var user = users[1];
+
 				// Return the success header
-				return [header, {data: 'yes'}];
+				return [header, {data: user}];
 			}
 
 			// Return the error header
@@ -169,6 +172,7 @@
 				label: 'destroy',
 			    method: 'DELETE',
 			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    params: ['id'],
 			    respond: destroyRespond
 			
 			},{
@@ -183,6 +187,7 @@
 				label: 'show',
 			    method: 'GET',
 			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    params: ['id'],
 			    respond: showRespond
 			
 			},{
@@ -197,6 +202,7 @@
 				label: 'update',
 			    method: 'PUT',
 			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    params: ['id'],
 			    respond: updateRespond
 			}];
 		}
