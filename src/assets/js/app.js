@@ -119,51 +119,25 @@
 
 	// Define the usersMock
     function usersMock(mockHelper) {
+        
 
-    	// Intercept all the states and add them to the routing
-    	mockHelper.configureMocks(getMocks());
-    }
+        // Object for user's mock
+    	var users = {};
 
 
-    // Define the getMocks
-    function getMocks() {
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
 
-    	// Object to pass for fake API
-		return [{
+    	
+    	setArrayUsers();																// Set the list of user
+    	mockHelper.configureMocks(getMocks()); 											// Intercept all the api and add them to the httpBackend
 
-			label: 'destroy',
-		    method: 'DELETE',
-		    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
-		    respond: destroyRespond
-		
-		},{
-
-			label: 'index',
-		    method: 'GET',
-		    url: '/api/v1/users/',
-		    respond: indexRespond
-		
-		},{
-
-			label: 'show',
-		    method: 'GET',
-		    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
-		    respond: showRespond
-		
-		},{
-
-			label: 'store',
-		    method: 'POST',
-		    url: '/api/v1/users/',
-		    respond: storeRespond
-		
-		},{
-
-			label: 'update',
-		    method: 'PUT',
-		    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
-		    respond: updateRespond
-		}]
 
 
 	    /*
@@ -174,11 +148,12 @@
 	    | Declaring all functions used in the usersMock
 	    |
 	    */
-	   
+
 
 		// Function for destroy users API
 		function destroyRespond(method, url, data, headers, params) {
 
+			users.splice(0,1);
 			// Get a random header
 			var header = randomHeader();
 
@@ -197,6 +172,7 @@
 		// Function for index users API
 		function indexRespond(method, url, data, headers, params) {
 
+			console.log(users);
 			// Get a random header
 			var header = randomHeader();
 
@@ -254,8 +230,6 @@
 			// Get a random header
 			var header = randomHeader();
 
-			console.log('as', users);
-
 			// If the result will be 200, execute the operation
 			if(header == 200) {
 
@@ -288,6 +262,55 @@
 
 			// Return 200
 			return 200;
+		}
+
+
+		// Function that pass the array that will create the httpBackend
+	    function getMocks() {
+
+	    	// Object to pass for fake API
+			return [{
+
+				label: 'destroy',
+			    method: 'DELETE',
+			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    respond: destroyRespond
+			
+			},{
+
+				label: 'index',
+			    method: 'GET',
+			    url: '/api/v1/users/',
+			    respond: indexRespond
+			
+			},{
+
+				label: 'show',
+			    method: 'GET',
+			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    respond: showRespond
+			
+			},{
+
+				label: 'store',
+			    method: 'POST',
+			    url: '/api/v1/users/',
+			    respond: storeRespond
+			
+			},{
+
+				label: 'update',
+			    method: 'PUT',
+			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    respond: updateRespond
+			}];
+		}
+
+
+		// Fucntion for set the array 
+		function setArrayUsers() {
+
+			return users = [{name: 'A'}, {name: 'B'}, {name: 'C'}];
 		}
 	}
 
@@ -729,6 +752,7 @@
         initLog();
         //show($stateParams.id);
         update(656, {data: 'help me'});
+
 
         /*
         |--------------------------------------------------------------------------
