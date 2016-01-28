@@ -20,6 +20,11 @@
 		function MockHelper($httpBackend) {
 
 			$httpBackend.whenGET(/\.html$/).passThrough();
+			$httpBackend.whenGET(/\.png$/).passThrough();
+			$httpBackend.whenGET(/\.svg$/).passThrough();
+			$httpBackend.whenGET(/\.jpg$/).passThrough();
+			$httpBackend.whenGET(/\.jpeg$/).passThrough();
+			$httpBackend.whenGET(/\.css$/).passThrough();
 
 			// Define the object to return
 			var service = {
