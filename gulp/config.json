@@ -1,0 +1,18 @@
+{
+  "scss": {
+    "config": "./config.rb",
+    "files":  "./src/assets/scss/**/*.scss",
+    "folder": {
+      "scss": "./src/assets/scss",
+      "css": "./src/assets/css"
+    }
+  },
+  "js": {
+    "modules": "./src/App/core/**/*.module.*.js",
+    "files": "./src/App/**/*.js",
+    "bundle": "app.js",
+    "folder": {
+      "dest": "./src/assets/js"
+    }
+  }
+}
