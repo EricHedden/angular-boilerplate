@@ -27,17 +27,18 @@
   'use strict';
 
     // Pass the usersFactory to the app
+    usersFactory.$inject = ["$http"];
     angular
         .module('app')
         .factory('usersFactory', usersFactory);
 
 
-    // Inject dependecies in the usersFactory
-    usersFactory.$inject = ['$http'];
-
-    
     // Define the usersFactory
     function usersFactory($http) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Define base URI for user user
@@ -123,18 +124,19 @@
   'use strict';
 
     // Pass the usersMock to the app
+	usersMock.$inject = ["mockHelper"];
 	angular
 	    .module('app')
 	    .run(usersMock);
 
 
-    // Inject dependecies in the usersMock
-	usersMock.$inject = ['mockHelper'];
-
-
 	// Define the usersMock
     function usersMock(mockHelper) {
         
+        
+		// Inject with ng-annotate
+		"ngInject";
+
 
         // Object for user's mock
     	var users = {};
@@ -341,17 +343,19 @@
   'use strict';
 
     // Pass the usersRoute to the app
+    usersRoute.$inject = ["routerHelper"];
 	angular
 	    .module('app')
 	    .run(usersRoute);
 
 
-    // Inject dependecies in the usersRoute
-	usersRoute.$inject = ['routerHelper'];
-
-
 	// Define the usersRoute
     function usersRoute(routerHelper) {
+
+
+		// Inject with ng-annotate
+		"ngInject";
+
 
     	// Intercept all the states and add them to the routing
     	routerHelper.configureStates(getStates());
@@ -412,19 +416,20 @@
   'use strict';
 
     // Pass the usersDestroyCtrl to the app
+    usersDestroyCtrl.$inject = ["usersFactory", "$stateParams"];
     angular
         .module('app')
         .controller('usersDestroyCtrl', usersDestroyCtrl);
-
-
-    // Inject dependecies in the usersDestroyCtrl
-    usersDestroyCtrl.$inject = ['usersFactory', '$stateParams'];
 
     
     // Define the usersDestroyCtrl
     function usersDestroyCtrl(usersFactory, $stateParams) {
 
 
+        // Inject with ng-annotate
+        "ngInject";
+
+        
         // Define usersDestroy as this for ControllerAs and auto-$scope
         var usersDestroy = this;
 
@@ -507,17 +512,18 @@
   'use strict';
 
     // Pass the usersIndexCtrl to the app
+    usersIndexCtrl.$inject = ["usersFactory"];
     angular
         .module('app')
         .controller('usersIndexCtrl', usersIndexCtrl);
 
 
-    // Inject dependecies in the usersIndexCtrl
-    usersIndexCtrl.$inject = ['usersFactory'];
-
-    
     // Define the usersIndexCtrl
     function usersIndexCtrl(usersFactory) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Define usersIndex as this for ControllerAs and auto-$scope
@@ -582,18 +588,95 @@
 
   'use strict';
 
+    // Pass the usersStoreCtrl to the app
+    usersStoreCtrl.$inject = ["usersFactory"];
+    angular
+        .module('app')
+        .controller('usersStoreCtrl', usersStoreCtrl);
+
+    
+    // Define the usersStoreCtrl
+    function usersStoreCtrl(usersFactory) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define usersStore as this for ControllerAs and auto-$scope
+        var usersStore = this;
+
+
+        // Define the usersStore functions that will be passed to the view
+        usersStore.store = store;                                           // Store a resource
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+        
+
+        initLog();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersStoreCtrl
+        |
+        */
+       
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('usersStoreCtrl init');
+        }
+
+
+        // Delete a resource
+        function store(data) {
+
+            return usersFactory.store(data).then(function(data) {
+
+                // Custom function for success handling
+            	console.log('Custom success function goes here');
+
+            }, function(data) {
+
+            	// Custom function for error handling
+				console.log('Custom error function goes here');
+
+            });
+        };
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
     // Pass the usersShowCtrl to the app
+    usersShowCtrl.$inject = ["usersFactory", "$stateParams"];
     angular
         .module('app')
         .controller('usersShowCtrl', usersShowCtrl);
 
-
-    // Inject dependecies in the usersShowCtrl
-    usersShowCtrl.$inject = ['usersFactory', '$stateParams'];
-
     
     // Define the usersShowCtrl
     function usersShowCtrl(usersFactory, $stateParams) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Define usersShow as this for ControllerAs and auto-$scope
@@ -659,93 +742,19 @@
 
   'use strict';
 
-    // Pass the usersStoreCtrl to the app
-    angular
-        .module('app')
-        .controller('usersStoreCtrl', usersStoreCtrl);
-
-
-    // Inject dependecies in the usersStoreCtrl
-    usersStoreCtrl.$inject = ['usersFactory'];
-
-    
-    // Define the usersStoreCtrl
-    function usersStoreCtrl(usersFactory) {
-
-
-        // Define usersStore as this for ControllerAs and auto-$scope
-        var usersStore = this;
-
-
-        // Define the usersStore functions that will be passed to the view
-        usersStore.store = store;                                           // Store a resource
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the usersStoreCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('usersStoreCtrl init');
-        }
-
-
-        // Delete a resource
-        function store(data) {
-
-            return usersFactory.store(data).then(function(data) {
-
-                // Custom function for success handling
-            	console.log('Custom success function goes here');
-
-            }, function(data) {
-
-            	// Custom function for error handling
-				console.log('Custom error function goes here');
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
     // Pass the usersUpdateCtrl to the app
+    usersUpdateCtrl.$inject = ["usersFactory", "$stateParams"];
     angular
         .module('app')
         .controller('usersUpdateCtrl', usersUpdateCtrl);
 
-
-    // Inject dependecies in the usersUpdateCtrl
-    usersUpdateCtrl.$inject = ['usersFactory', '$stateParams'];
-
     
     // Define the usersUpdateCtrl
     function usersUpdateCtrl(usersFactory, $stateParams) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Define usersUpdate as this for ControllerAs and auto-$scope
@@ -839,12 +848,15 @@
 	function mockHelperProvider() {
 
 		// Holds the service factory function
+		MockHelper.$inject = ["$httpBackend"];
 		this.$get = MockHelper;
 
-		MockHelper.$inject = ['$httpBackend'];
 
 		// Define the mockHelperProvider
 		function MockHelper($httpBackend) {
+
+			// Inject with ng-annotate
+			"ngInject";
 
 			$httpBackend.whenGET(/\.html$/).passThrough();
 			$httpBackend.whenGET(/\.png$/).passThrough();
@@ -893,20 +905,20 @@
 	'use strict';
 
 	// Pass the routerHelperProvider to the app
+	routerHelperProvider.$inject = ["$locationProvider", "$stateProvider", "$urlRouterProvider"];
 	angular
 		.module('core.routing')
 		.provider('routerHelper', routerHelperProvider);
 
 
-    // Inject dependecies in the routerHelperProvider
-	routerHelperProvider.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
-
-
     // Define the routerHelperProvider
 	function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider) {
 
+		// Inject with ng-annotate
+		"ngInject";
 
 		// Holds the service factory function
+		RouterHelper.$inject = ["$state"];
 		this.$get = RouterHelper;
 
 		// Declare html5Mode true for a clean url
@@ -917,13 +929,13 @@
 		$urlRouterProvider.otherwise('/404');
 
 
-    	// Inject dependecies in the RouterHelper
-		RouterHelper.$inject = ['$state'];
-
-
 		// Define the routerHelperProvider
 		function RouterHelper($state) {
 
+
+			// Inject with ng-annotate
+			"ngInject";
+		
 
 			// Define the object to return
 			var service = {

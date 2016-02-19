@@ -8,13 +8,13 @@
 	    .run(usersMock);
 
 
-    // Inject dependecies in the usersMock
-	usersMock.$inject = ['mockHelper'];
-
-
 	// Define the usersMock
     function usersMock(mockHelper) {
         
+        
+		// Inject with ng-annotate
+		"ngInject";
+
 
         // Object for user's mock
     	var users = {};

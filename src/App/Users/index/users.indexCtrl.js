@@ -8,12 +8,12 @@
         .controller('usersIndexCtrl', usersIndexCtrl);
 
 
-    // Inject dependecies in the usersIndexCtrl
-    usersIndexCtrl.$inject = ['usersFactory'];
-
-    
     // Define the usersIndexCtrl
     function usersIndexCtrl(usersFactory) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Define usersIndex as this for ControllerAs and auto-$scope

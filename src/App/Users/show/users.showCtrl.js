@@ -7,13 +7,13 @@
         .module('app')
         .controller('usersShowCtrl', usersShowCtrl);
 
-
-    // Inject dependecies in the usersShowCtrl
-    usersShowCtrl.$inject = ['usersFactory', '$stateParams'];
-
     
     // Define the usersShowCtrl
     function usersShowCtrl(usersFactory, $stateParams) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Define usersShow as this for ControllerAs and auto-$scope

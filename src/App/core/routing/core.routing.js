@@ -8,13 +8,11 @@
 		.provider('routerHelper', routerHelperProvider);
 
 
-    // Inject dependecies in the routerHelperProvider
-	routerHelperProvider.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
-
-
     // Define the routerHelperProvider
 	function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider) {
 
+		// Inject with ng-annotate
+		"ngInject";
 
 		// Holds the service factory function
 		this.$get = RouterHelper;
@@ -27,13 +25,13 @@
 		$urlRouterProvider.otherwise('/404');
 
 
-    	// Inject dependecies in the RouterHelper
-		RouterHelper.$inject = ['$state'];
-
-
 		// Define the routerHelperProvider
 		function RouterHelper($state) {
 
+
+			// Inject with ng-annotate
+			"ngInject";
+		
 
 			// Define the object to return
 			var service = {

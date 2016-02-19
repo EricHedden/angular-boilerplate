@@ -8,12 +8,13 @@
 	    .run(usersRoute);
 
 
-    // Inject dependecies in the usersRoute
-	usersRoute.$inject = ['routerHelper'];
-
-
 	// Define the usersRoute
     function usersRoute(routerHelper) {
+
+
+		// Inject with ng-annotate
+		"ngInject";
+
 
     	// Intercept all the states and add them to the routing
     	routerHelper.configureStates(getStates());

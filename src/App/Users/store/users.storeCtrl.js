@@ -7,13 +7,13 @@
         .module('app')
         .controller('usersStoreCtrl', usersStoreCtrl);
 
-
-    // Inject dependecies in the usersStoreCtrl
-    usersStoreCtrl.$inject = ['usersFactory'];
-
     
     // Define the usersStoreCtrl
     function usersStoreCtrl(usersFactory) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Define usersStore as this for ControllerAs and auto-$scope

@@ -8,12 +8,12 @@
         .factory('usersFactory', usersFactory);
 
 
-    // Inject dependecies in the usersFactory
-    usersFactory.$inject = ['$http'];
-
-    
     // Define the usersFactory
     function usersFactory($http) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Define base URI for user user

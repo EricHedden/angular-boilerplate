@@ -7,15 +7,15 @@
         .module('app')
         .controller('usersDestroyCtrl', usersDestroyCtrl);
 
-
-    // Inject dependecies in the usersDestroyCtrl
-    usersDestroyCtrl.$inject = ['usersFactory', '$stateParams'];
-
     
     // Define the usersDestroyCtrl
     function usersDestroyCtrl(usersFactory, $stateParams) {
 
 
+        // Inject with ng-annotate
+        "ngInject";
+
+        
         // Define usersDestroy as this for ControllerAs and auto-$scope
         var usersDestroy = this;
 
