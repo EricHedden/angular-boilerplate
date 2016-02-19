@@ -35,8 +35,7 @@
         
 
         initLog();
-        //show($stateParams.id);
-        show(100);
+        show($stateParams.id);
 
 
         /*

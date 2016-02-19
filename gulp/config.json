@@ -7,6 +7,12 @@
       "css": "./src/assets/css"
     }
   },
+  "img": {
+    "files": "./src/assets/img/**",
+    "folder": {
+      "dest": "./src/assets/img"
+    }
+  },
   "js": {
     "modules": "./src/App/**/*.module.*.js",
     "files": "./src/App/**/*.js",

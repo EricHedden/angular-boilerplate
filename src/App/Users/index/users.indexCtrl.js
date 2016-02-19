@@ -58,7 +58,6 @@
         function index() {
 
             return usersFactory.index().then(function(data) {
-                console.log('Custom success function goes here', data);
 
             	// Assign data to array and return them
 	            usersFactory.users = data.data;

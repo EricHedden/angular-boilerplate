@@ -36,9 +36,8 @@
         
 
         initLog();
-        //show($stateParams.id);
-        update(656, {data: 'help me'});
-
+        show($stateParams.id);
+        
 
         /*
         |--------------------------------------------------------------------------
