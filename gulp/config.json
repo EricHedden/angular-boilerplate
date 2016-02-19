@@ -8,7 +8,7 @@
     }
   },
   "js": {
-    "modules": "./src/App/core/**/*.module.*.js",
+    "modules": "./src/App/**/*.module.*.js",
     "files": "./src/App/**/*.js",
     "bundle": "app.js",
     "folder": {
