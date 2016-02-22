@@ -26,6 +26,47 @@
 
   'use strict';
 
+    // Pass the staticsRoute to the app
+    staticsRoute.$inject = ["routerHelper"];
+	angular
+	    .module('app')
+	    .run(staticsRoute);
+
+
+	// Define the staticsRoute
+    function staticsRoute(routerHelper) {
+
+
+		// Inject with ng-annotate
+		"ngInject";
+
+
+    	// Intercept all the states and add them to the routing
+    	routerHelper.configureStates(getStates());
+    }
+
+
+    // Define the getStates
+    function getStates() {
+
+		return [{
+
+		    state: 'statics-home',
+		    config: {
+		        url: '/',
+		        templateUrl: 'app/modules/statics/home/statics.homeView.html',
+		        controller: 'staticsHomeCtrl',
+		        controllerAs: 'staticsHome'
+		    }
+		}];
+	}
+
+})();
+
+(function() {
+
+  'use strict';
+
     // Pass the usersFactory to the app
     usersFactory.$inject = ["$http"];
     angular
@@ -42,7 +83,7 @@
 
 
         // Define base URI for user user
-        var userBase = '/api/v1/users/';
+        var userBase = '/api/users/';
 
 
         // Define the user factory object to return
@@ -69,51 +110,46 @@
         | Declaring all functions used in the usersFactory
         |
         */
-       
+
 
         // Display a listing of users.
         function index() {
 
             return $http.get(userBase)
-                        .then(function(data){return data});
-
-        };
+                        .then(function(data){ return data; });
+        }
 
 
         // Display a specified user.
         function show(id) {
 
             return $http.get(userBase + id)
-                        .then(function(data){return data.data});
-
-        };
+                        .then(function(data){ return data.data; });
+        }
 
 
         // Store a newly created user in storage.
         function store(data) {
 
             return $http.post(userBase, data)
-                        .then(function(data){return data.data});
-
-        };
+                        .then(function(data){ return data.data; });
+        }
 
 
         // Update the specified user in storage.
         function update(id, data) {
 
             return $http.put(userBase + id, data)
-                        .then(function(data){return data.data});
-
-        };
+                        .then(function(data){ return data.data; });
+        }
 
 
         // Remove the specified user from storage.
         function destroy(id) {
 
             return $http.delete(userBase + id)
-                        .then(function(data){return data.data});
-
-        };
+                        .then(function(data){ return data.data; });
+        }
 
     }
 
@@ -132,8 +168,8 @@
 
 	// Define the usersMock
     function usersMock(mockHelper) {
-        
-        
+
+
 		// Inject with ng-annotate
 		"ngInject";
 
@@ -151,9 +187,9 @@
         |
         */
 
-    	
-    	setArrayUsers();																// Set the list of user
-    	mockHelper.configureMocks(getMocks()); 											// Intercept all the api and add them to the httpBackend
+
+    	setUsers();															            // Set the list of user
+    	mockHelper.configureMocks(getMocks()); 									        // Intercept all the api and add them to the httpBackend
 
 
 
@@ -170,20 +206,33 @@
 		// Function for destroy users API
 		function destroyRespond(method, url, data, headers, params) {
 
-			//users.splice(0,1);
-			console.log(params);
+            // Get the id param from url
+            var id = url.split("/").pop();
+
 			// Get a random header
 			var header = randomHeader();
 
 			// If the result will be 200, execute the operation
 			if(header == 200) {
 
-				// Return the success header
-				return [header, {data: 'yes'}];
+                // Delete user by id from user's array
+                for(var i = 0; i <= users.length - 1; i++) {
+
+                    // If user exists
+                    if(users[i].id == id) {
+                       users.splice(i, 1);
+
+                       // Return the success header
+			            return [header, {data: 'User removed'}];
+                    }
+                }
+
+				// Return the error header
+				return [header, {error: 'User not found'}];
 			}
 
 			// Return the error header
-			return [header, {error:'error'}];
+			return [header, {error:'Error in user removing'}];
 		}
 
 
@@ -201,12 +250,15 @@
 			}
 
 			// Return the error header
-			return [header, {error:'error'}];
+			return [header, {error:'Error in user listing'}];
 		}
 
 
 		// Function for show users API
 		function showRespond(method, url, data, headers, params) {
+
+            // Get the id param from url
+            var id = url.split("/").pop();
 
 			// Get a random header
 			var header = randomHeader();
@@ -214,15 +266,23 @@
 			// If the result will be 200, execute the operation
 			if(header == 200) {
 
-				// Get the data to return
-				var user = users[1];
+                // Get user by id from user's array
+                for(var i = 0; i <= users.length - 1; i++) {
 
-				// Return the success header
-				return [header, {data: user}];
+                    // If user exists
+                    if(users[i].id == id) {
+
+                        // Return the success header
+        				return [header, {data: users[i]}];
+                    }
+                }
+
+                // Return the error header
+    			return [header, {error:'User not found'}];
 			}
 
 			// Return the error header
-			return [header, {error:'error'}];
+			return [header, {error:'Error in showing user'}];
 		}
 
 
@@ -262,7 +322,7 @@
 		}
 
 
-		// Basic algorithm for random headers 
+		// Basic algorithm for random headers
 		function randomHeader(){
 
 			// Generate a random number from 1 to 10
@@ -293,51 +353,67 @@
 
 				label: 'destroy',
 			    method: 'DELETE',
-			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    url: /\/api\/users\/(d*)/,
 			    params: ['id'],
 			    respond: destroyRespond
-			
+
 			},{
 
 				label: 'index',
 			    method: 'GET',
-			    url: '/api/v1/users/',
+			    url: '/api/users/',
 			    respond: indexRespond
-			
+
 			},{
 
 				label: 'show',
 			    method: 'GET',
-			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    url: /\/api\/users\/(d*)/,
 			    params: ['id'],
 			    respond: showRespond
-			
+
 			},{
 
 				label: 'store',
 			    method: 'POST',
-			    url: '/api/v1/users/',
+			    url: '/api/users/',
 			    respond: storeRespond
-			
+
 			},{
 
 				label: 'update',
 			    method: 'PUT',
-			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    url: /\/api\/users\/(d*)/,
 			    params: ['id'],
 			    respond: updateRespond
 			}];
 		}
 
 
-		// Fucntion for set the array 
-		function setArrayUsers() {
+		// Function for set the array
+		function setUsers() {
 
-			return users = [{name: 'A'}, {name: 'B'}, {name: 'C'}];
+            users = [{
+
+                "id": 1,
+                "name": "Mario",
+                "surname": "Rossi"
+            },
+            {
+                "id": 2,
+                "name": "Luigi",
+                "surname": "Verdi"
+            },
+            {
+                "id": 3,
+                "name": "Furio",
+                "surname": "Bianchi"
+            }];
 		}
 	}
 
 })();
+
 (function() {
 
   'use strict';
@@ -366,11 +442,11 @@
     function getStates() {
 
 		return [{
-			
+
 		    state: 'users-index',
 		    config: {
 		        url: '/users',
-		        templateUrl: 'App/Users/index/users.indexView.html',
+		        templateUrl: 'app/modules/users/index/users.indexView.html',
 		        controller: 'usersIndexCtrl',
 		        controllerAs: 'usersIndex'
 		    }
@@ -378,7 +454,7 @@
 		    state: 'users-store',
 		    config: {
 		        url: '/users/store',
-		        templateUrl: 'App/Users/store/users.storeView.html',
+		        templateUrl: 'app/modules/users/store/users.storeView.html',
 		        controller: 'usersStoreCtrl',
 		        controllerAs: 'usersStore'
 		    }
@@ -386,7 +462,7 @@
 		    state: 'users-show',
 		    config: {
 		        url: '/users/:id',
-		        templateUrl: 'App/Users/show/users.showView.html',
+		        templateUrl: 'app/modules/users/show/users.showView.html',
 		        controller: 'usersShowCtrl',
 		        controllerAs: 'usersShow'
 		    }
@@ -394,7 +470,7 @@
 		    state: 'users-update',
 		    config: {
 		        url: '/users/:id/update',
-		        templateUrl: 'App/Users/update/users.updateView.html',
+		        templateUrl: 'app/modules/users/update/users.updateView.html',
 		        controller: 'usersUpdateCtrl',
 		        controllerAs: 'usersUpdate'
 		    }
@@ -402,435 +478,12 @@
 		    state: 'users-destroy',
 		    config: {
 		        url: '/users/:id/delete',
-		        templateUrl: 'App/Users/destroy/users.destroyView.html',
+		        templateUrl: 'app/modules/users/destroy/users.destroyView.html',
 		        controller: 'usersDestroyCtrl',
 		        controllerAs: 'usersDestroy'
 		    }
-		}]
+		}];
 	}
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the usersDestroyCtrl to the app
-    usersDestroyCtrl.$inject = ["usersFactory", "$stateParams"];
-    angular
-        .module('app')
-        .controller('usersDestroyCtrl', usersDestroyCtrl);
-
-    
-    // Define the usersDestroyCtrl
-    function usersDestroyCtrl(usersFactory, $stateParams) {
-
-
-        // Inject with ng-annotate
-        "ngInject";
-
-        
-        // Define usersDestroy as this for ControllerAs and auto-$scope
-        var usersDestroy = this;
-
-
-        // Define the usersDestroy functions that will be passed to the view
-        usersDestroy.user = {};                                                 // Object for show the user
-        usersDestroy.destroy = destroy;                                         // Delete a resource
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-        show($stateParams.id);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the usersDestroyCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('usersDestroyCtrl init');
-        }
-
-
-        // Delete a resource
-        function destroy(id) {
-
-            return usersFactory.destroy(id).then(function(data) {
-
-                // Custom function for success handling
-            	console.log('Custom success function goes here');
-
-            }, function(data) {
-
-            	// Custom function for error handling
-				console.log('Custom error function goes here');
-
-            });
-        };
-
-
-        // Get the user
-        function show(id) {
-
-            return usersFactory.show(id).then(function(data) {
-
-                // Assign data to array and return them
-                usersFactory.user = data;
-                return usersShow.user;
-
-            }, function(data) {
-
-                // Custom function for error handling
-                console.log('Custom error function goes here');
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the usersIndexCtrl to the app
-    usersIndexCtrl.$inject = ["usersFactory"];
-    angular
-        .module('app')
-        .controller('usersIndexCtrl', usersIndexCtrl);
-
-
-    // Define the usersIndexCtrl
-    function usersIndexCtrl(usersFactory) {
-
-
-        // Inject with ng-annotate
-        "ngInject";
-
-
-        // Define usersIndex as this for ControllerAs and auto-$scope
-        var usersIndex = this;
-
-
-        // Define the usersIndex functions that will be passed to the view
-        usersIndex.users = [];                                              // Array for list of users
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-        index()
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the usersIndexCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('usersIndexCtrl init');
-        }
-
-
-        // Get all users.
-        function index() {
-
-            return usersFactory.index().then(function(data) {
-
-            	// Assign data to array and return them
-	            usersFactory.users = data.data;
-	            return usersIndex.users;
-
-            }, function(data) {
-
-                // Custom function for error handling
-                console.log('Custom error function goes here', data);
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the usersStoreCtrl to the app
-    usersStoreCtrl.$inject = ["usersFactory"];
-    angular
-        .module('app')
-        .controller('usersStoreCtrl', usersStoreCtrl);
-
-    
-    // Define the usersStoreCtrl
-    function usersStoreCtrl(usersFactory) {
-
-
-        // Inject with ng-annotate
-        "ngInject";
-
-
-        // Define usersStore as this for ControllerAs and auto-$scope
-        var usersStore = this;
-
-
-        // Define the usersStore functions that will be passed to the view
-        usersStore.store = store;                                           // Store a resource
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the usersStoreCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('usersStoreCtrl init');
-        }
-
-
-        // Delete a resource
-        function store(data) {
-
-            return usersFactory.store(data).then(function(data) {
-
-                // Custom function for success handling
-            	console.log('Custom success function goes here');
-
-            }, function(data) {
-
-            	// Custom function for error handling
-				console.log('Custom error function goes here');
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the usersShowCtrl to the app
-    usersShowCtrl.$inject = ["usersFactory", "$stateParams"];
-    angular
-        .module('app')
-        .controller('usersShowCtrl', usersShowCtrl);
-
-    
-    // Define the usersShowCtrl
-    function usersShowCtrl(usersFactory, $stateParams) {
-
-
-        // Inject with ng-annotate
-        "ngInject";
-
-
-        // Define usersShow as this for ControllerAs and auto-$scope
-        var usersShow = this;
-
-
-        // Define the usersShow functions that will be passed to the view
-        usersShow.user = {};                                                // Object for show the user
-        
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-        show($stateParams.id);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the usersShowCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('usersShowCtrl init');
-        }
-
-
-        // Get the user
-        function show(id) {
-
-            return usersFactory.show(id).then(function(data) {
-
-            	// Assign data to array and return them
-	            usersFactory.user = data;
-	            return usersShow.user;
-
-            }, function(data) {
-
-                // Custom function for error handling
-                console.log('Custom error function goes here');
-
-            });
-        };
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the usersUpdateCtrl to the app
-    usersUpdateCtrl.$inject = ["usersFactory", "$stateParams"];
-    angular
-        .module('app')
-        .controller('usersUpdateCtrl', usersUpdateCtrl);
-
-    
-    // Define the usersUpdateCtrl
-    function usersUpdateCtrl(usersFactory, $stateParams) {
-
-
-        // Inject with ng-annotate
-        "ngInject";
-
-
-        // Define usersUpdate as this for ControllerAs and auto-$scope
-        var usersUpdate = this;
-
-
-        // Define the usersUpdate functions that will be passed to the view
-        usersUpdate.user = {};                                                  // Object for show the user
-        usersUpdate.update = update;                                            // Update a resource
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-        
-
-        initLog();
-        show($stateParams.id);
-        
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the usersUpdateCtrl
-        |
-        */
-       
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('usersUpdateCtrl init');
-        }
-
-
-        // Delete a resource
-        function update(id, data) {
-
-            return usersFactory.update(id, data).then(function(data) {
-
-                // Custom function for success handling
-            	console.log('Custom success function goes here');
-
-            }, function(data) {
-
-            	// Custom function for error handling
-				console.log('Custom error function goes here');
-
-            });
-        };
-
-
-        // Get the user
-        function show(id) {
-
-            return usersFactory.show(id).then(function(data) {
-
-                // Assign data to array and return them
-                usersFactory.user = data;
-                return usersShow.user;
-
-            }, function(data) {
-
-                // Custom function for error handling
-                console.log('Custom error function goes here');
-
-            });
-        };
-    }
 
 })();
 
@@ -884,7 +537,7 @@
 	        | Declaring all functions used in the MockHelper
 	        |
 	        */
-	       
+
 
 			// Configure all the mocks for the route
 			function configureMocks(mocks) {
@@ -892,7 +545,6 @@
 				// Foreach mocks, create a fake backend interaction
 				mocks.forEach(function(mock){
 
-					console.log(mock);
 					$httpBackend.when(mock.method, mock.url).respond(mock.respond);
 				});
 			}
@@ -900,6 +552,7 @@
 	}
 
 })();
+
 (function(){
 
 	'use strict';
@@ -933,10 +586,6 @@
 		function RouterHelper($state) {
 
 
-			// Inject with ng-annotate
-			"ngInject";
-		
-
 			// Define the object to return
 			var service = {
 
@@ -958,14 +607,14 @@
 	        | Declaring all functions used in the RouterHelper
 	        |
 	        */
-	       
+
 
 			// Configure all the states for the route
 			function configureStates(states) {
 
 				// Add to the routing the state passed trought array of objects
 				states.forEach(function(state) {
-					
+
 					$stateProvider.state(state.state, state.config);
 
 				});
@@ -976,9 +625,546 @@
 			function getStates() {
 
 				return $state.get();
-
 			}
 		}
 	}
+
+})();
+
+(function() {
+
+  'use strict';
+
+    // Pass the staticsHomeCtrl to the app
+    angular
+        .module('app')
+        .controller('staticsHomeCtrl', staticsHomeCtrl);
+
+
+    // Define the staticsHomeCtrl
+    function staticsHomeCtrl() {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define staticsHome as this for ControllerAs and auto-$scope
+        var staticsHome = this;
+            staticsHome.title =    "AngularJS-boilerplate";
+            staticsHome.content =  "A micro AngularJS boilerplate for start projects with no pain, based on JohnPapa style guide";
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        initLog();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the staticsHomeCtrl
+        |
+        */
+
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('staticsHomeCtrl init');
+        }
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
+    // Pass the usersDestroyCtrl to the app
+    usersDestroyCtrl.$inject = ["usersFactory", "$stateParams"];
+    angular
+        .module('app')
+        .controller('usersDestroyCtrl', usersDestroyCtrl);
+
+
+    // Define the usersDestroyCtrl
+    function usersDestroyCtrl(usersFactory, $stateParams) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define usersDestroy as this for ControllerAs and auto-$scope
+        var usersDestroy = this;
+
+
+        // Define the usersDestroy functions that will be passed to the view
+        usersDestroy.user = {};                                                 // Object for show the user
+        usersDestroy.destroy = destroy;                                         // Delete a resource
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        initLog();
+        show($stateParams.id);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersDestroyCtrl
+        |
+        */
+
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('usersDestroyCtrl init');
+        }
+
+
+        // Delete a resource
+        function destroy(id) {
+
+            return usersFactory.destroy(id).then(function(data) {
+
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+
+            }, function(data) {
+
+            	// Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+
+
+        // Get the user
+        function show(id) {
+
+            return usersFactory.show(id).then(function(data) {
+                
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+                
+                // Assign data to array and return them
+                usersFactory.user = data;
+                return usersShow.user;
+
+            }, function(data) {
+
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
+    // Pass the usersIndexCtrl to the app
+    usersIndexCtrl.$inject = ["usersFactory"];
+    angular
+        .module('app')
+        .controller('usersIndexCtrl', usersIndexCtrl);
+
+
+    // Define the usersIndexCtrl
+    function usersIndexCtrl(usersFactory) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define usersIndex as this for ControllerAs and auto-$scope
+        var usersIndex = this;
+
+
+        // Define the usersIndex functions that will be passed to the view
+        usersIndex.users = [];                                              // Array for list of users
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        initLog();
+        index();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersIndexCtrl
+        |
+        */
+
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('usersIndexCtrl init');
+        }
+
+
+        // Get all users.
+        function index() {
+
+            return usersFactory.index().then(function(data) {
+                
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+
+            	// Assign data to array and return them
+	            usersFactory.users = data.data;
+	            return usersIndex.users;
+
+            }, function(data) {
+
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
+    // Pass the usersShowCtrl to the app
+    usersShowCtrl.$inject = ["usersFactory", "$stateParams"];
+    angular
+        .module('app')
+        .controller('usersShowCtrl', usersShowCtrl);
+
+
+    // Define the usersShowCtrl
+    function usersShowCtrl(usersFactory, $stateParams) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define usersShow as this for ControllerAs and auto-$scope
+        var usersShow = this;
+
+
+        // Define the usersShow functions that will be passed to the view
+        usersShow.user = {};                                                // Object for show the user
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        initLog();
+        show($stateParams.id);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersShowCtrl
+        |
+        */
+
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('usersShowCtrl init');
+        }
+
+
+        // Get the user
+        function show(id) {
+
+            return usersFactory.show(id).then(function(data) {
+
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+
+            	// Assign data to array and return them
+	            usersFactory.user = data;
+	            return usersShow.user;
+
+            }, function(data) {
+
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
+    // Pass the usersStoreCtrl to the app
+    usersStoreCtrl.$inject = ["usersFactory"];
+    angular
+        .module('app')
+        .controller('usersStoreCtrl', usersStoreCtrl);
+
+
+    // Define the usersStoreCtrl
+    function usersStoreCtrl(usersFactory) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define usersStore as this for ControllerAs and auto-$scope
+        var usersStore = this;
+
+
+        // Define the usersStore functions that will be passed to the view
+        usersStore.store = store;                                           // Store a resource
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        initLog();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersStoreCtrl
+        |
+        */
+
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('usersStoreCtrl init');
+        }
+
+
+        // Delete a resource
+        function store(data) {
+
+            return usersFactory.store(data).then(function(data) {
+
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+
+            }, function(data) {
+
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
+    // Pass the usersUpdateCtrl to the app
+    usersUpdateCtrl.$inject = ["usersFactory", "$stateParams"];
+    angular
+        .module('app')
+        .controller('usersUpdateCtrl', usersUpdateCtrl);
+
+
+    // Define the usersUpdateCtrl
+    function usersUpdateCtrl(usersFactory, $stateParams) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define usersUpdate as this for ControllerAs and auto-$scope
+        var usersUpdate = this;
+
+
+        // Define the usersUpdate functions that will be passed to the view
+        usersUpdate.user = {};                                                  // Object for show the user
+        usersUpdate.update = update;                                            // Update a resource
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        initLog();
+        show($stateParams.id);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersUpdateCtrl
+        |
+        */
+
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('usersUpdateCtrl init');
+        }
+
+
+        // Delete a resource
+        function update(id, data) {
+
+            return usersFactory.update(id, data).then(function(data) {
+
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+
+            }, function(data) {
+
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+
+
+        // Get the user
+        function show(id) {
+
+            return usersFactory.show(id).then(function(data) {
+
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+
+                // Assign data to array and return them
+                usersFactory.user = data;
+                return usersShow.user;
+
+            }, function(data) {
+
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
+
+    // Pass the customDirective to the app
+    angular
+        .module('app')
+        .directive('customDirective', customDirective);
+
+
+    // Define the customDirective
+    function customDirective() {
+
+
+        var directive = {
+
+                restrict: 'EA',
+                templateUrl: 'app/shared/components/custom-component/custom-component.html',
+                scope: {
+                    customString: '@',                      // Isolated scope string
+                    customAttribute: '=',                   // Isolated scope two-way data binding
+                    customAction: '&'                       // Isolated scope action
+                },
+                link: linkFunc,
+                controller: customDirectiveController,
+                controllerAs: 'customDirective'
+        };
+
+
+        return directive;
+
+
+        function linkFunc(scope, el, attr, ctrl) {
+
+            // Do stuff...
+        }
+    }
+
+
+    function customDirectiveController() {
+
+        // Do stuff...
+    }
 
 })();

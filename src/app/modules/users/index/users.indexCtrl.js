@@ -32,10 +32,10 @@
         | All functions that should be init when the controller start
         |
         */
-        
+
 
         initLog();
-        index()
+        index();
 
         /*
         |--------------------------------------------------------------------------
@@ -45,7 +45,7 @@
         | Declaring all functions used in the usersIndexCtrl
         |
         */
-       
+
 
         // Sample for init function
         function initLog() {
@@ -58,6 +58,9 @@
         function index() {
 
             return usersFactory.index().then(function(data) {
+                
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
 
             	// Assign data to array and return them
 	            usersFactory.users = data.data;
@@ -66,10 +69,10 @@
             }, function(data) {
 
                 // Custom function for error handling
-                console.log('Custom error function goes here', data);
+                console.log('Result form API with ERROR', data);
 
             });
-        };
+        }
     }
 
 })();

@@ -7,7 +7,7 @@
         .module('app')
         .controller('usersShowCtrl', usersShowCtrl);
 
-    
+
     // Define the usersShowCtrl
     function usersShowCtrl(usersFactory, $stateParams) {
 
@@ -22,7 +22,7 @@
 
         // Define the usersShow functions that will be passed to the view
         usersShow.user = {};                                                // Object for show the user
-        
+
 
         /*
         |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@
         | All functions that should be init when the controller start
         |
         */
-        
+
 
         initLog();
         show($stateParams.id);
@@ -46,7 +46,7 @@
         | Declaring all functions used in the usersShowCtrl
         |
         */
-       
+
 
         // Sample for init function
         function initLog() {
@@ -60,6 +60,9 @@
 
             return usersFactory.show(id).then(function(data) {
 
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+
             	// Assign data to array and return them
 	            usersFactory.user = data;
 	            return usersShow.user;
@@ -67,10 +70,10 @@
             }, function(data) {
 
                 // Custom function for error handling
-                console.log('Custom error function goes here');
+                console.log('Result form API with ERROR', data);
 
             });
-        };
+        }
     }
 
 })();

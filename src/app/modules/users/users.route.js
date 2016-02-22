@@ -25,11 +25,11 @@
     function getStates() {
 
 		return [{
-			
+
 		    state: 'users-index',
 		    config: {
 		        url: '/users',
-		        templateUrl: 'App/Users/index/users.indexView.html',
+		        templateUrl: 'app/modules/users/index/users.indexView.html',
 		        controller: 'usersIndexCtrl',
 		        controllerAs: 'usersIndex'
 		    }
@@ -37,7 +37,7 @@
 		    state: 'users-store',
 		    config: {
 		        url: '/users/store',
-		        templateUrl: 'App/Users/store/users.storeView.html',
+		        templateUrl: 'app/modules/users/store/users.storeView.html',
 		        controller: 'usersStoreCtrl',
 		        controllerAs: 'usersStore'
 		    }
@@ -45,7 +45,7 @@
 		    state: 'users-show',
 		    config: {
 		        url: '/users/:id',
-		        templateUrl: 'App/Users/show/users.showView.html',
+		        templateUrl: 'app/modules/users/show/users.showView.html',
 		        controller: 'usersShowCtrl',
 		        controllerAs: 'usersShow'
 		    }
@@ -53,7 +53,7 @@
 		    state: 'users-update',
 		    config: {
 		        url: '/users/:id/update',
-		        templateUrl: 'App/Users/update/users.updateView.html',
+		        templateUrl: 'app/modules/users/update/users.updateView.html',
 		        controller: 'usersUpdateCtrl',
 		        controllerAs: 'usersUpdate'
 		    }
@@ -61,11 +61,11 @@
 		    state: 'users-destroy',
 		    config: {
 		        url: '/users/:id/delete',
-		        templateUrl: 'App/Users/destroy/users.destroyView.html',
+		        templateUrl: 'app/modules/users/destroy/users.destroyView.html',
 		        controller: 'usersDestroyCtrl',
 		        controllerAs: 'usersDestroy'
 		    }
-		}]
+		}];
 	}
 
 })();

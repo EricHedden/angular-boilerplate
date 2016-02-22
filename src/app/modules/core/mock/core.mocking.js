@@ -47,7 +47,7 @@
 	        | Declaring all functions used in the MockHelper
 	        |
 	        */
-	       
+
 
 			// Configure all the mocks for the route
 			function configureMocks(mocks) {
@@ -55,7 +55,6 @@
 				// Foreach mocks, create a fake backend interaction
 				mocks.forEach(function(mock){
 
-					console.log(mock);
 					$httpBackend.when(mock.method, mock.url).respond(mock.respond);
 				});
 			}

@@ -10,8 +10,8 @@
 
 	// Define the usersMock
     function usersMock(mockHelper) {
-        
-        
+
+
 		// Inject with ng-annotate
 		"ngInject";
 
@@ -29,9 +29,9 @@
         |
         */
 
-    	
-    	setArrayUsers();																// Set the list of user
-    	mockHelper.configureMocks(getMocks()); 											// Intercept all the api and add them to the httpBackend
+
+    	setUsers();															            // Set the list of user
+    	mockHelper.configureMocks(getMocks()); 									        // Intercept all the api and add them to the httpBackend
 
 
 
@@ -48,20 +48,33 @@
 		// Function for destroy users API
 		function destroyRespond(method, url, data, headers, params) {
 
-			//users.splice(0,1);
-			console.log(params);
+            // Get the id param from url
+            var id = url.split("/").pop();
+
 			// Get a random header
 			var header = randomHeader();
 
 			// If the result will be 200, execute the operation
 			if(header == 200) {
 
-				// Return the success header
-				return [header, {data: 'yes'}];
+                // Delete user by id from user's array
+                for(var i = 0; i <= users.length - 1; i++) {
+
+                    // If user exists
+                    if(users[i].id == id) {
+                       users.splice(i, 1);
+
+                       // Return the success header
+			            return [header, {data: 'User removed'}];
+                    }
+                }
+
+				// Return the error header
+				return [header, {error: 'User not found'}];
 			}
 
 			// Return the error header
-			return [header, {error:'error'}];
+			return [header, {error:'Error in user removing'}];
 		}
 
 
@@ -79,12 +92,15 @@
 			}
 
 			// Return the error header
-			return [header, {error:'error'}];
+			return [header, {error:'Error in user listing'}];
 		}
 
 
 		// Function for show users API
 		function showRespond(method, url, data, headers, params) {
+
+            // Get the id param from url
+            var id = url.split("/").pop();
 
 			// Get a random header
 			var header = randomHeader();
@@ -92,15 +108,23 @@
 			// If the result will be 200, execute the operation
 			if(header == 200) {
 
-				// Get the data to return
-				var user = users[1];
+                // Get user by id from user's array
+                for(var i = 0; i <= users.length - 1; i++) {
 
-				// Return the success header
-				return [header, {data: user}];
+                    // If user exists
+                    if(users[i].id == id) {
+
+                        // Return the success header
+        				return [header, {data: users[i]}];
+                    }
+                }
+
+                // Return the error header
+    			return [header, {error:'User not found'}];
 			}
 
 			// Return the error header
-			return [header, {error:'error'}];
+			return [header, {error:'Error in showing user'}];
 		}
 
 
@@ -140,7 +164,7 @@
 		}
 
 
-		// Basic algorithm for random headers 
+		// Basic algorithm for random headers
 		function randomHeader(){
 
 			// Generate a random number from 1 to 10
@@ -171,47 +195,62 @@
 
 				label: 'destroy',
 			    method: 'DELETE',
-			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    url: /\/api\/users\/(d*)/,
 			    params: ['id'],
 			    respond: destroyRespond
-			
+
 			},{
 
 				label: 'index',
 			    method: 'GET',
-			    url: '/api/v1/users/',
+			    url: '/api/users/',
 			    respond: indexRespond
-			
+
 			},{
 
 				label: 'show',
 			    method: 'GET',
-			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    url: /\/api\/users\/(d*)/,
 			    params: ['id'],
 			    respond: showRespond
-			
+
 			},{
 
 				label: 'store',
 			    method: 'POST',
-			    url: '/api/v1/users/',
+			    url: '/api/users/',
 			    respond: storeRespond
-			
+
 			},{
 
 				label: 'update',
 			    method: 'PUT',
-			    url: /\/api\/v1\/users\/(d*)/, //  Why '/api/v1/users/:id' not works here!?
+			    url: /\/api\/users\/(d*)/,
 			    params: ['id'],
 			    respond: updateRespond
 			}];
 		}
 
 
-		// Fucntion for set the array 
-		function setArrayUsers() {
+		// Function for set the array
+		function setUsers() {
 
-			return users = [{name: 'A'}, {name: 'B'}, {name: 'C'}];
+            users = [{
+
+                "id": 1,
+                "name": "Mario",
+                "surname": "Rossi"
+            },
+            {
+                "id": 2,
+                "name": "Luigi",
+                "surname": "Verdi"
+            },
+            {
+                "id": 3,
+                "name": "Furio",
+                "surname": "Bianchi"
+            }];
 		}
 	}
 

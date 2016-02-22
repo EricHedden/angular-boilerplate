@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
-	<base href="/">
+	<base href="/base/src/">
 	<title></title>
 
 	<!-- Modules -->
 	<script src="assets/bower_components/angular/angular.min.js"></script>
 	<script src="assets/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 	<script src="assets/bower_components/angular-mocks/angular-mocks.js" data-server="1.4.9" data-require="angular-mocks@1.4.9"></script>
-	
-	<!-- Angular -->
+
+  <!-- Angular -->
   <script src="assets/js/app.js"></script>
 
   <!-- Angular Minified -->
@@ -19,6 +19,10 @@
 <body>
 
   <div ui-view></div>
+
+  <div custom-directive></div>
+  <a ui-sref="users-show({id: 3})">Show</a>
+  <a ui-sref="statics-home">Home</a>
 
 </body>
 </html>

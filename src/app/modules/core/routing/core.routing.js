@@ -29,10 +29,6 @@
 		function RouterHelper($state) {
 
 
-			// Inject with ng-annotate
-			"ngInject";
-		
-
 			// Define the object to return
 			var service = {
 
@@ -54,14 +50,14 @@
 	        | Declaring all functions used in the RouterHelper
 	        |
 	        */
-	       
+
 
 			// Configure all the states for the route
 			function configureStates(states) {
 
 				// Add to the routing the state passed trought array of objects
 				states.forEach(function(state) {
-					
+
 					$stateProvider.state(state.state, state.config);
 
 				});
@@ -72,7 +68,6 @@
 			function getStates() {
 
 				return $state.get();
-
 			}
 		}
 	}

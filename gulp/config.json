@@ -14,8 +14,8 @@
     }
   },
   "js": {
-    "modules": "./src/App/**/*.module.*.js",
-    "files": "./src/App/**/*.js",
+    "modules": "./src/app/**/*.module.*.js",
+    "files": "./src/app/**/*.js",
     "bundle": "app.js",
     "folder": {
       "dest": "./src/assets/js"

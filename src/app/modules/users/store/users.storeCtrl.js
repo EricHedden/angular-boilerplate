@@ -7,7 +7,7 @@
         .module('app')
         .controller('usersStoreCtrl', usersStoreCtrl);
 
-    
+
     // Define the usersStoreCtrl
     function usersStoreCtrl(usersFactory) {
 
@@ -32,7 +32,7 @@
         | All functions that should be init when the controller start
         |
         */
-        
+
 
         initLog();
 
@@ -45,7 +45,7 @@
         | Declaring all functions used in the usersStoreCtrl
         |
         */
-       
+
 
         // Sample for init function
         function initLog() {
@@ -60,15 +60,15 @@
             return usersFactory.store(data).then(function(data) {
 
                 // Custom function for success handling
-            	console.log('Custom success function goes here');
+                console.log('Result form API with SUCCESS', data);
 
             }, function(data) {
 
-            	// Custom function for error handling
-				console.log('Custom error function goes here');
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
 
             });
-        };
+        }
     }
 
 })();
