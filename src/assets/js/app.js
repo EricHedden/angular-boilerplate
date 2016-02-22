@@ -489,6 +489,53 @@
 
 })();
 
+(function() {
+
+  'use strict';
+
+
+    // Pass the customDirective to the app
+    angular
+        .module('app')
+        .directive('customDirective', customDirective);
+
+
+    // Define the customDirective
+    function customDirective() {
+
+
+        var directive = {
+
+                restrict: 'EA',
+                templateUrl: 'app/shared/components/custom-component/custom-component.html',
+                scope: {
+                    customString: '@',                      // Isolated scope string
+                    customAttribute: '=',                   // Isolated scope two-way data binding
+                    customAction: '&'                       // Isolated scope action
+                },
+                link: linkFunc,
+                controller: customDirectiveController,
+                controllerAs: 'customDirective'
+        };
+
+
+        return directive;
+
+
+        function linkFunc(scope, el, attr, ctrl) {
+
+            // Do stuff...
+        }
+    }
+
+
+    function customDirectiveController() {
+
+        // Do stuff...
+    }
+
+})();
+
 (function(){
 
 	'use strict';
@@ -880,82 +927,6 @@
 
   'use strict';
 
-    // Pass the usersStoreCtrl to the app
-    usersStoreCtrl.$inject = ["usersFactory"];
-    angular
-        .module('app')
-        .controller('usersStoreCtrl', usersStoreCtrl);
-
-
-    // Define the usersStoreCtrl
-    function usersStoreCtrl(usersFactory) {
-
-
-        // Inject with ng-annotate
-        "ngInject";
-
-
-        // Define usersStore as this for ControllerAs and auto-$scope
-        var usersStore = this;
-
-
-        // Define the usersStore functions and objects that will be passed to the view
-        usersStore.store = store;                                           // Store a resource
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-
-
-        initLog();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the usersStoreCtrl
-        |
-        */
-
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('usersStoreCtrl init');
-        }
-
-
-        // Delete a resource
-        function store(data) {
-
-            return usersFactory.store(data).then(function(data) {
-
-                // Custom function for success handling
-                console.log('Result form API with SUCCESS', data);
-
-            }, function(data) {
-
-                // Custom function for error handling
-                console.log('Result form API with ERROR', data);
-
-            });
-        }
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
     // Pass the usersShowCtrl to the app
     usersShowCtrl.$inject = ["usersFactory", "$stateParams"];
     angular
@@ -1021,6 +992,82 @@
             	// Assign data to array and return them
 	            usersShow.user = data;
 	            return usersShow.user;
+
+            }, function(data) {
+
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
+    // Pass the usersStoreCtrl to the app
+    usersStoreCtrl.$inject = ["usersFactory"];
+    angular
+        .module('app')
+        .controller('usersStoreCtrl', usersStoreCtrl);
+
+
+    // Define the usersStoreCtrl
+    function usersStoreCtrl(usersFactory) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define usersStore as this for ControllerAs and auto-$scope
+        var usersStore = this;
+
+
+        // Define the usersStore functions and objects that will be passed to the view
+        usersStore.store = store;                                           // Store a resource
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        initLog();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersStoreCtrl
+        |
+        */
+
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('usersStoreCtrl init');
+        }
+
+
+        // Delete a resource
+        function store(data) {
+
+            return usersFactory.store(data).then(function(data) {
+
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
 
             }, function(data) {
 
@@ -1128,53 +1175,6 @@
 
             });
         }
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-
-    // Pass the customDirective to the app
-    angular
-        .module('app')
-        .directive('customDirective', customDirective);
-
-
-    // Define the customDirective
-    function customDirective() {
-
-
-        var directive = {
-
-                restrict: 'EA',
-                templateUrl: 'app/shared/components/custom-component/custom-component.html',
-                scope: {
-                    customString: '@',                      // Isolated scope string
-                    customAttribute: '=',                   // Isolated scope two-way data binding
-                    customAction: '&'                       // Isolated scope action
-                },
-                link: linkFunc,
-                controller: customDirectiveController,
-                controllerAs: 'customDirective'
-        };
-
-
-        return directive;
-
-
-        function linkFunc(scope, el, attr, ctrl) {
-
-            // Do stuff...
-        }
-    }
-
-
-    function customDirectiveController() {
-
-        // Do stuff...
     }
 
 })();
