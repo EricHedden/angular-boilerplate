@@ -20,7 +20,7 @@
         var usersShow = this;
 
 
-        // Define the usersShow functions that will be passed to the view
+        // Define the usersShow functions and objects that will be passed to the view
         usersShow.user = {};                                                // Object for show the user
 
 
@@ -64,7 +64,7 @@
                 console.log('Result form API with SUCCESS', data);
 
             	// Assign data to array and return them
-	            usersFactory.user = data;
+	            usersShow.user = data;
 	            return usersShow.user;
 
             }, function(data) {

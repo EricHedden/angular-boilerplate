@@ -11,6 +11,7 @@
     // Define the mockHelperProvider
 	function mockHelperProvider() {
 
+
 		// Holds the service factory function
 		this.$get = MockHelper;
 
@@ -18,15 +19,19 @@
 		// Define the mockHelperProvider
 		function MockHelper($httpBackend) {
 
+
 			// Inject with ng-annotate
 			"ngInject";
 
+
+			// Pass through this extension
 			$httpBackend.whenGET(/\.html$/).passThrough();
 			$httpBackend.whenGET(/\.png$/).passThrough();
 			$httpBackend.whenGET(/\.svg$/).passThrough();
 			$httpBackend.whenGET(/\.jpg$/).passThrough();
 			$httpBackend.whenGET(/\.jpeg$/).passThrough();
 			$httpBackend.whenGET(/\.css$/).passThrough();
+
 
 			// Define the object to return
 			var service = {

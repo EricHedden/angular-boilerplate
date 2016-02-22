@@ -20,7 +20,7 @@
         var usersStore = this;
 
 
-        // Define the usersStore functions that will be passed to the view
+        // Define the usersStore functions and objects that will be passed to the view
         usersStore.store = store;                                           // Store a resource
 
 

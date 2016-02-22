@@ -20,7 +20,7 @@
         var usersDestroy = this;
 
 
-        // Define the usersDestroy functions that will be passed to the view
+        // Define the usersDestroy functions and objects that will be passed to the view
         usersDestroy.user = {};                                                 // Object for show the user
         usersDestroy.destroy = destroy;                                         // Delete a resource
 
@@ -77,13 +77,13 @@
         function show(id) {
 
             return usersFactory.show(id).then(function(data) {
-                
+
                 // Custom function for success handling
                 console.log('Result form API with SUCCESS', data);
-                
+
                 // Assign data to array and return them
-                usersFactory.user = data;
-                return usersShow.user;
+                usersDestroy.user = data;
+                return usersDestroy.user;
 
             }, function(data) {
 

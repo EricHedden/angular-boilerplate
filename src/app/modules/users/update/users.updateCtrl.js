@@ -20,7 +20,7 @@
         var usersUpdate = this;
 
 
-        // Define the usersUpdate functions that will be passed to the view
+        // Define the usersUpdate functions and objects that will be passed to the view
         usersUpdate.user = {};                                                  // Object for show the user
         usersUpdate.update = update;                                            // Update a resource
 
@@ -82,8 +82,8 @@
                 console.log('Result form API with SUCCESS', data);
 
                 // Assign data to array and return them
-                usersFactory.user = data;
-                return usersShow.user;
+                usersUpdate.user = data;
+                return usersUpdate.user;
 
             }, function(data) {
 

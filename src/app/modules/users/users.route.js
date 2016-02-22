@@ -12,8 +12,8 @@
     function usersRoute(routerHelper) {
 
 
-		// Inject with ng-annotate
-		"ngInject";
+        // Inject with ng-annotate
+        "ngInject";
 
 
     	// Intercept all the states and add them to the routing

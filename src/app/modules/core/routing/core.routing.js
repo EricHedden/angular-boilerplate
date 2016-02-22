@@ -11,11 +11,14 @@
     // Define the routerHelperProvider
 	function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider) {
 
+
 		// Inject with ng-annotate
 		"ngInject";
 
+
 		// Holds the service factory function
 		this.$get = RouterHelper;
+
 
 		// Declare html5Mode true for a clean url
 		$locationProvider.html5Mode(true);
@@ -32,8 +35,8 @@
 			// Define the object to return
 			var service = {
 
-				configureStates: configureStates,		// Configure all the states for the route
-				getStates: getStates 					// Return the lists of states
+				configureStates: configureStates,			// Configure all the states for the route
+				getStates: getStates 						// Return the lists of states
 
 			};
 

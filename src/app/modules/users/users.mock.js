@@ -12,12 +12,12 @@
     function usersMock(mockHelper) {
 
 
-		// Inject with ng-annotate
-		"ngInject";
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Object for user's mock
-    	var users = {};
+        var users = {};
 
 
         /*
@@ -62,15 +62,17 @@
 
                     // If user exists
                     if(users[i].id == id) {
-                       users.splice(i, 1);
 
-                       // Return the success header
-			            return [header, {data: 'User removed'}];
+                        // Delete  user
+                        users.splice(i, 1);
+
+                        // Return the success header
+                        return [header, {data: 'User removed'}];
                     }
                 }
 
 				// Return the error header
-				return [header, {error: 'User not found'}];
+                return [header, {error: 'User not found'}];
 			}
 
 			// Return the error header
@@ -88,7 +90,7 @@
 			if(header == 200) {
 
 				// Return the success header
-				return [header, {data: users}];
+                return [header, {data: users}];
 			}
 
 			// Return the error header
@@ -115,7 +117,7 @@
                     if(users[i].id == id) {
 
                         // Return the success header
-        				return [header, {data: users[i]}];
+                        return [header, {data: users[i]}];
                     }
                 }
 

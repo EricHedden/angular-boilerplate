@@ -170,12 +170,12 @@
     function usersMock(mockHelper) {
 
 
-		// Inject with ng-annotate
-		"ngInject";
+        // Inject with ng-annotate
+        "ngInject";
 
 
         // Object for user's mock
-    	var users = {};
+        var users = {};
 
 
         /*
@@ -220,15 +220,17 @@
 
                     // If user exists
                     if(users[i].id == id) {
-                       users.splice(i, 1);
 
-                       // Return the success header
-			            return [header, {data: 'User removed'}];
+                        // Delete  user
+                        users.splice(i, 1);
+
+                        // Return the success header
+                        return [header, {data: 'User removed'}];
                     }
                 }
 
 				// Return the error header
-				return [header, {error: 'User not found'}];
+                return [header, {error: 'User not found'}];
 			}
 
 			// Return the error header
@@ -246,7 +248,7 @@
 			if(header == 200) {
 
 				// Return the success header
-				return [header, {data: users}];
+                return [header, {data: users}];
 			}
 
 			// Return the error header
@@ -273,7 +275,7 @@
                     if(users[i].id == id) {
 
                         // Return the success header
-        				return [header, {data: users[i]}];
+                        return [header, {data: users[i]}];
                     }
                 }
 
@@ -429,8 +431,8 @@
     function usersRoute(routerHelper) {
 
 
-		// Inject with ng-annotate
-		"ngInject";
+        // Inject with ng-annotate
+        "ngInject";
 
 
     	// Intercept all the states and add them to the routing
@@ -500,6 +502,7 @@
     // Define the mockHelperProvider
 	function mockHelperProvider() {
 
+
 		// Holds the service factory function
 		MockHelper.$inject = ["$httpBackend"];
 		this.$get = MockHelper;
@@ -508,15 +511,19 @@
 		// Define the mockHelperProvider
 		function MockHelper($httpBackend) {
 
+
 			// Inject with ng-annotate
 			"ngInject";
 
+
+			// Pass through this extension
 			$httpBackend.whenGET(/\.html$/).passThrough();
 			$httpBackend.whenGET(/\.png$/).passThrough();
 			$httpBackend.whenGET(/\.svg$/).passThrough();
 			$httpBackend.whenGET(/\.jpg$/).passThrough();
 			$httpBackend.whenGET(/\.jpeg$/).passThrough();
 			$httpBackend.whenGET(/\.css$/).passThrough();
+
 
 			// Define the object to return
 			var service = {
@@ -567,12 +574,15 @@
     // Define the routerHelperProvider
 	function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider) {
 
+
 		// Inject with ng-annotate
 		"ngInject";
+
 
 		// Holds the service factory function
 		RouterHelper.$inject = ["$state"];
 		this.$get = RouterHelper;
+
 
 		// Declare html5Mode true for a clean url
 		$locationProvider.html5Mode(true);
@@ -589,8 +599,8 @@
 			// Define the object to return
 			var service = {
 
-				configureStates: configureStates,		// Configure all the states for the route
-				getStates: getStates 					// Return the lists of states
+				configureStates: configureStates,			// Configure all the states for the route
+				getStates: getStates 						// Return the lists of states
 
 			};
 
@@ -710,7 +720,7 @@
         var usersDestroy = this;
 
 
-        // Define the usersDestroy functions that will be passed to the view
+        // Define the usersDestroy functions and objects that will be passed to the view
         usersDestroy.user = {};                                                 // Object for show the user
         usersDestroy.destroy = destroy;                                         // Delete a resource
 
@@ -767,13 +777,13 @@
         function show(id) {
 
             return usersFactory.show(id).then(function(data) {
-                
+
                 // Custom function for success handling
                 console.log('Result form API with SUCCESS', data);
-                
+
                 // Assign data to array and return them
-                usersFactory.user = data;
-                return usersShow.user;
+                usersDestroy.user = data;
+                return usersDestroy.user;
 
             }, function(data) {
 
@@ -809,7 +819,7 @@
         var usersIndex = this;
 
 
-        // Define the usersIndex functions that will be passed to the view
+        // Define the usersIndex functions and objects that will be passed to the view
         usersIndex.users = [];                                              // Array for list of users
 
 
@@ -847,94 +857,13 @@
         function index() {
 
             return usersFactory.index().then(function(data) {
-                
+
                 // Custom function for success handling
                 console.log('Result form API with SUCCESS', data);
 
             	// Assign data to array and return them
-	            usersFactory.users = data.data;
+	            usersIndex.users = data.data;
 	            return usersIndex.users;
-
-            }, function(data) {
-
-                // Custom function for error handling
-                console.log('Result form API with ERROR', data);
-
-            });
-        }
-    }
-
-})();
-
-(function() {
-
-  'use strict';
-
-    // Pass the usersShowCtrl to the app
-    usersShowCtrl.$inject = ["usersFactory", "$stateParams"];
-    angular
-        .module('app')
-        .controller('usersShowCtrl', usersShowCtrl);
-
-
-    // Define the usersShowCtrl
-    function usersShowCtrl(usersFactory, $stateParams) {
-
-
-        // Inject with ng-annotate
-        "ngInject";
-
-
-        // Define usersShow as this for ControllerAs and auto-$scope
-        var usersShow = this;
-
-
-        // Define the usersShow functions that will be passed to the view
-        usersShow.user = {};                                                // Object for show the user
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Contrsucts function
-        |--------------------------------------------------------------------------
-        |
-        | All functions that should be init when the controller start
-        |
-        */
-
-
-        initLog();
-        show($stateParams.id);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Functions
-        |--------------------------------------------------------------------------
-        |
-        | Declaring all functions used in the usersShowCtrl
-        |
-        */
-
-
-        // Sample for init function
-        function initLog() {
-
-            console.log('usersShowCtrl init');
-        }
-
-
-        // Get the user
-        function show(id) {
-
-            return usersFactory.show(id).then(function(data) {
-
-                // Custom function for success handling
-                console.log('Result form API with SUCCESS', data);
-
-            	// Assign data to array and return them
-	            usersFactory.user = data;
-	            return usersShow.user;
 
             }, function(data) {
 
@@ -970,7 +899,7 @@
         var usersStore = this;
 
 
-        // Define the usersStore functions that will be passed to the view
+        // Define the usersStore functions and objects that will be passed to the view
         usersStore.store = store;                                           // Store a resource
 
 
@@ -1027,6 +956,87 @@
 
   'use strict';
 
+    // Pass the usersShowCtrl to the app
+    usersShowCtrl.$inject = ["usersFactory", "$stateParams"];
+    angular
+        .module('app')
+        .controller('usersShowCtrl', usersShowCtrl);
+
+
+    // Define the usersShowCtrl
+    function usersShowCtrl(usersFactory, $stateParams) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Define usersShow as this for ControllerAs and auto-$scope
+        var usersShow = this;
+
+
+        // Define the usersShow functions and objects that will be passed to the view
+        usersShow.user = {};                                                // Object for show the user
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        initLog();
+        show($stateParams.id);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersShowCtrl
+        |
+        */
+
+
+        // Sample for init function
+        function initLog() {
+
+            console.log('usersShowCtrl init');
+        }
+
+
+        // Get the user
+        function show(id) {
+
+            return usersFactory.show(id).then(function(data) {
+
+                // Custom function for success handling
+                console.log('Result form API with SUCCESS', data);
+
+            	// Assign data to array and return them
+	            usersShow.user = data;
+	            return usersShow.user;
+
+            }, function(data) {
+
+                // Custom function for error handling
+                console.log('Result form API with ERROR', data);
+
+            });
+        }
+    }
+
+})();
+
+(function() {
+
+  'use strict';
+
     // Pass the usersUpdateCtrl to the app
     usersUpdateCtrl.$inject = ["usersFactory", "$stateParams"];
     angular
@@ -1046,7 +1056,7 @@
         var usersUpdate = this;
 
 
-        // Define the usersUpdate functions that will be passed to the view
+        // Define the usersUpdate functions and objects that will be passed to the view
         usersUpdate.user = {};                                                  // Object for show the user
         usersUpdate.update = update;                                            // Update a resource
 
@@ -1108,8 +1118,8 @@
                 console.log('Result form API with SUCCESS', data);
 
                 // Assign data to array and return them
-                usersFactory.user = data;
-                return usersShow.user;
+                usersUpdate.user = data;
+                return usersUpdate.user;
 
             }, function(data) {
 
