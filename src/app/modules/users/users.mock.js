@@ -94,7 +94,7 @@
 			}
 
 			// Return the error header
-			return [header, {error:'Error in user listing'}];
+			return [header, {error:'Error while listing users'}];
 		}
 
 
@@ -126,7 +126,7 @@
 			}
 
 			// Return the error header
-			return [header, {error:'Error in showing user'}];
+			return [header, {error:'Error showing user'}];
 		}
 
 
@@ -136,20 +136,29 @@
 			// Get a random header
 			var header = randomHeader();
 
-			// If the result will be 200, execute the operation
+            // If the result will be 200, execute the operation
 			if(header == 200) {
 
-				// Return the success header
-				return [header, {data: 'yes'}];
-			}
+                // Assisgn user id - override if inserted
+                data.id = users.length;
+
+                // Insert the new user
+                users.push(data);
+
+                // Return the success header
+                return [header, {data: 'User stored'}];
+            }
 
 			// Return the error header
-			return [header, {error:'error'}];
+			return [header, {error:'Error storing the user'}];
 		}
 
 
 		// Function for update users API
 		function updateRespond(method, url, data, headers, params) {
+
+            // Get the id param from url
+            var id = url.split("/").pop();
 
 			// Get a random header
 			var header = randomHeader();
@@ -157,12 +166,26 @@
 			// If the result will be 200, execute the operation
 			if(header == 200) {
 
-				// Return the success header
-				return [header, {data: 'yes'}];
+                // Get user by id from user's array
+                for(var i = 0; i <= users.length - 1; i++) {
+
+                    // If user exists
+                    if(users[i].id == id) {
+
+                        // Override the user
+                        users[i] = data;
+
+                        // Return the success header
+                        return [header, {data: 'User updated'}];
+                    }
+                }
+
+                // Return the error header
+    			return [header, {error:'User not found'}];
 			}
 
 			// Return the error header
-			return [header, {error:'error'}];
+			return [header, {error:'Error updating user'}];
 		}
 
 
