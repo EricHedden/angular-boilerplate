@@ -4,7 +4,7 @@
   "description": "A simple AngularJS Boilerplate based on JohnPapa style guide",
   "main": "src/index.html",
   "scripts": {
-    "build": "live-server --open=src --entry-file=src/index.html  --quiet | gulp"
+    "serve": "live-server --open=src --entry-file=src/index.html  --quiet | gulp"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/damianopetrungaro/AngularJS-boilerplate#readme",
   "devDependencies": {
+    "bower": "^1.7.7",
     "gulp": "^3.9.0",
     "gulp-compass": "^2.1.0",
     "gulp-concat": "^2.6.0",

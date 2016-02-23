@@ -1,3 +1,4 @@
 node_modules
 src/assets/bower_components
 .tmp
+npm-debug.log
