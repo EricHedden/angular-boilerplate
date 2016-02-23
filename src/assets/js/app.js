@@ -588,14 +588,14 @@
 	'use strict';
 
 	// Pass the routerHelperProvider to the app
-	routerHelperProvider.$inject = ["$locationProvider", "$stateProvider", "$urlRouterProvider"];
+	routerHelperProvider.$inject = ["$locationProvider", "$stateProvider", "$urlRouterProvider", "$urlMatcherFactoryProvider"];
 	angular
 		.module('core.routing')
 		.provider('routerHelper', routerHelperProvider);
 
 
     // Define the routerHelperProvider
-	function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider) {
+	function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
 
 
 		// Inject with ng-annotate
@@ -609,6 +609,10 @@
 
 		// Declare html5Mode true for a clean url
 		$locationProvider.html5Mode(true);
+
+
+		// Declare strict to false for remove trailing slash
+		$urlMatcherFactoryProvider.strictMode(false);
 
 
 		// Declare the otherwise, go here if no state is found
@@ -1159,7 +1163,6 @@
 
   'use strict';
 
-
     // Pass the customDirective to the app
     angular
         .module('app')
@@ -1169,7 +1172,7 @@
     // Define the customDirective
     function customDirective() {
 
-
+        // Define directive
         var directive = {
 
                 restrict: 'EA',
@@ -1184,17 +1187,17 @@
                 controllerAs: 'customDirective'
         };
 
-
+        // Return directive
         return directive;
 
-
+        // Define link function
         function linkFunc(scope, el, attr, ctrl) {
 
             // Do stuff...
         }
     }
 
-
+    // Define directive controller
     function customDirectiveController() {
 
         // Do stuff...
