@@ -19,7 +19,7 @@
         // Define staticsHome as this for ControllerAs and auto-$scope
         var staticsHome = this;
             staticsHome.title =    "AngularJS-boilerplate";
-            staticsHome.content =  "A micro AngularJS boilerplate for start projects with no pain, based on JohnPapa style guide";
+            staticsHome.content =  "A micro AngularJS boilerplate for start projects with mocking and routing modules ready, based on John Papa's style guide";
 
 
         /*
