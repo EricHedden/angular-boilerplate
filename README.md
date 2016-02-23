@@ -30,7 +30,8 @@ $ npm run serve
 
 The sample modules have a ``` .mock.js ``` and ``` .route.js ``` files.
 
-Those files is used by the ``` core ``` for pass information to a provider.
+Those files are used by the ``` core ``` for pass information to a provider.
+
 
 If you want to remove a core module, just delete from the resources ( i.e ``` users ``` ) and the``` core ``` directory the file and folder.
 
