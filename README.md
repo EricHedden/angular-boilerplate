@@ -1,5 +1,6 @@
 # AngularJS-boilerplate
-A micro AngularJS boilerplate for start projects with mocking and routing modules ready, based on John Papa's style guide
+A micro AngularJS boilerplate for start projects with mocking and routing modules ready,
+based on this [Best Practice angular-styleguide made by johnpapa](https://github.com/johnpapa/angular-styleguide)
 
 # Install
 
