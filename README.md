@@ -1,6 +1,8 @@
 # AngularJS-boilerplate
 A micro AngularJS boilerplate for start projects with mocking and routing modules ready,
-based on this [Best Practice angular-styleguide made by johnpapa](https://github.com/johnpapa/angular-styleguide)
+based on this [Best Practice angular-styleguide made by johnpapa](https://github.com/johnpapa/angular-styleguide).
+
+#### See this [Angular Scaffolding](https://github.com/damianopetrungaro/generator-angular-rest).
 
 # Install
 
