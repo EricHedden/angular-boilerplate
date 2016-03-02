@@ -5,7 +5,7 @@
   "main": "src/index.html",
   "scripts": {
     "serve": "live-server --open=src --entry-file=src/index.html  --quiet | gulp --env=dev",
-    "prod": "gulp production --env=prod"
+    "prod": "live-server --open=src --entry-file=src/index.html  --quiet | gulp production --env=prod"
   },
   "repository": {
     "type": "git",
