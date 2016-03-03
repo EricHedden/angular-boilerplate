@@ -10,23 +10,37 @@ based on this [Best Practice angular-styleguide made by johnpapa](https://github
 Make a directory and move into it
 
 ```sh
-$ mkdir myFolder
-$ cd myFolder
+    $ mkdir myFolder
+    $ cd myFolder
 ```
 
 Then clone the boilerplate and install all dependecies
 
 ```sh
-$ git clone https://github.com/damianopetrungaro/AngularJS-boilerplate.git
-$ cd AngularJS-boilerplate
-$ npm install
+    $ git clone https://github.com/damianopetrungaro/AngularJS-boilerplate.git
+    $ cd AngularJS-boilerplate
+    $ npm install
 ```
 
-For start a server with the running app
 
-```sh
-$ npm run serve
+## Set up environment
+
+For developing env:
+
+With watch and live reload for js and css (or sass)
+
+```bash
+	$  npm run serve
 ```
+
+For production env:
+
+Simply return minified code and optimizated images
+
+```bash
+	$  npm run prod
+```
+
 
 
 # Modules
