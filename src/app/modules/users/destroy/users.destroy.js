@@ -1,6 +1,6 @@
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersDestroyCtrl to the app
     angular
@@ -21,8 +21,8 @@
 
 
         // Define the usersDestroy functions and objects that will be passed to the view
-        usersDestroy.user = {};                                                 // Object for show the user
-        usersDestroy.destroy = destroy;                                         // Delete a resource
+        usersDestroy.user = {}; // Object for show the user
+        usersDestroy.destroy = destroy; // Delete a resource
 
 
         /*
@@ -66,7 +66,7 @@
 
             }, function(data) {
 
-            	// Custom function for error handling
+                // Custom function for error handling
                 console.log('Result form API with ERROR', data);
 
             });

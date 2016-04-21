@@ -1,6 +1,6 @@
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersUpdateCtrl to the app
     angular
@@ -21,8 +21,8 @@
 
 
         // Define the usersUpdate functions and objects that will be passed to the view
-        usersUpdate.user = {};                                                  // Object for show the user
-        usersUpdate.update = update;                                            // Update a resource
+        usersUpdate.user = {}; // Object for show the user
+        usersUpdate.update = update; // Update a resource
 
 
         /*

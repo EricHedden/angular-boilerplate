@@ -1,1 +1,15 @@
 <h1>User store view</h1>
+
+<form name="yourForm" novalidate valdr-type="User" valdr-form-group>
+    <label for="lastName">Last Name</label>
+    <input type="text"
+           id="lastName"
+           name="lastName"
+           ng-model="person.lastName">
+
+    <label for="firstName">First Name</label>
+    <input type="text"
+           id="firstName"
+           name="firstName"
+           ng-model="person.firstName">
+</form>

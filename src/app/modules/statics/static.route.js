@@ -1,39 +1,39 @@
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the staticsRoute to the app
-	angular
-	    .module('app')
-	    .run(staticsRoute);
+    angular
+        .module('app')
+        .run(staticsRoute);
 
 
-	// Define the staticsRoute
+    // Define the staticsRoute
     function staticsRoute(routerHelper) {
 
 
-		// Inject with ng-annotate
-		"ngInject";
+        // Inject with ng-annotate
+        "ngInject";
 
 
-    	// Intercept all the states and add them to the routing
-    	routerHelper.configureStates(getStates());
+        // Intercept all the states and add them to the routing
+        routerHelper.configureStates(getStates());
     }
 
 
     // Define the getStates
     function getStates() {
 
-		return [{
+        return [{
 
-		    state: 'statics-home',
-		    config: {
-		        url: '/',
-		        templateUrl: 'app/modules/statics/home/statics.home.html',
-		        controller: 'staticsHomeCtrl',
-		        controllerAs: 'staticsHome'
-		    }
-		}];
-	}
+            state: 'statics-home',
+            config: {
+                url: '/',
+                templateUrl: 'app/modules/statics/home/statics.home.html',
+                controller: 'staticsHomeCtrl',
+                controllerAs: 'staticsHome'
+            }
+        }];
+    }
 
 })();

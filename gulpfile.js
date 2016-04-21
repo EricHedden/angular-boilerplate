@@ -1,3 +1,5 @@
 'use strict';
 
-require('require-dir')('./gulp', { recurse: true });
+require('require-dir')('./gulp', {
+    recurse: true
+});

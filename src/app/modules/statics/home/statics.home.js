@@ -1,6 +1,6 @@
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the staticsHomeCtrl to the app
     angular
@@ -18,8 +18,8 @@
 
         // Define staticsHome as this for ControllerAs and auto-$scope
         var staticsHome = this;
-            staticsHome.title =    "AngularJS-boilerplate";
-            staticsHome.content =  "A micro AngularJS boilerplate for start projects with mocking and routing modules ready, based on John Papa's style guide";
+        staticsHome.title = "AngularJS-boilerplate";
+        staticsHome.content = "A micro AngularJS boilerplate for start projects with mocking and routing modules ready, based on John Papa's style guide";
 
 
         /*

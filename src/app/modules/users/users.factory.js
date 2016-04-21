@@ -1,6 +1,6 @@
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersFactory to the app
     angular
@@ -50,7 +50,9 @@
         function index() {
 
             return $http.get(userBase)
-                        .then(function(data){ return data; });
+                .then(function(data) {
+                    return data;
+                });
         }
 
 
@@ -58,7 +60,9 @@
         function show(id) {
 
             return $http.get(userBase + id)
-                        .then(function(data){ return data.data; });
+                .then(function(data) {
+                    return data.data;
+                });
         }
 
 
@@ -66,7 +70,9 @@
         function store(data) {
 
             return $http.post(userBase, data)
-                        .then(function(data){ return data.data; });
+                .then(function(data) {
+                    return data.data;
+                });
         }
 
 
@@ -74,7 +80,9 @@
         function update(id, data) {
 
             return $http.put(userBase + id, data)
-                        .then(function(data){ return data.data; });
+                .then(function(data) {
+                    return data.data;
+                });
         }
 
 
@@ -82,7 +90,9 @@
         function destroy(id) {
 
             return $http.delete(userBase + id)
-                        .then(function(data){ return data.data; });
+                .then(function(data) {
+                    return data.data;
+                });
         }
 
     }

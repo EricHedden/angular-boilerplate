@@ -1,6 +1,6 @@
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersStoreCtrl to the app
     angular
@@ -21,7 +21,7 @@
 
 
         // Define the usersStore functions and objects that will be passed to the view
-        usersStore.store = store;                                           // Store a resource
+        usersStore.store = store; // Store a resource
 
 
         /*

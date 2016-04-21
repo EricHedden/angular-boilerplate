@@ -1,8 +1,8 @@
-(function(){
+(function() {
 
-	'use strict';
+    'use strict';
 
-	// Define angular core.routing module
-	angular.module('core.routing', ['ui.router']);
+    // Define angular core.routing module
+    angular.module('core.routing', ['ui.router']);
 
 })();

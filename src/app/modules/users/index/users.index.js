@@ -1,6 +1,6 @@
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersIndexCtrl to the app
     angular
@@ -21,7 +21,7 @@
 
 
         // Define the usersIndex functions and objects that will be passed to the view
-        usersIndex.users = [];                                              // Array for list of users
+        usersIndex.users = []; // Array for list of users
 
 
         /*
@@ -62,9 +62,9 @@
                 // Custom function for success handling
                 console.log('Result form API with SUCCESS', data);
 
-            	// Assign data to array and return them
-	            usersIndex.users = data.data;
-	            return usersIndex.users;
+                // Assign data to array and return them
+                usersIndex.users = data.data;
+                return usersIndex.users;
 
             }, function(data) {
 

@@ -1,74 +1,84 @@
-(function(){
-
-	'use strict';
-
-	// Define angular core.mocking module
-	angular.module('core.mocking', ['ngMockE2E']);
-
-})();
-(function(){
-
-	'use strict';
-
-	// Define angular core.routing module
-	angular.module('core.routing', ['ui.router']);
-
-})();
-(function(){
-
-	'use strict';
-
-	// Define angular app module
-	angular.module('app', ['core.routing', 'core.mocking', 'ui.router']);
-
-})();
 (function() {
 
-  'use strict';
+    'use strict';
+
+    // Define angular core.mocking module
+    angular.module('core.mocking', ['ngMockE2E']);
+
+})();
+
+(function() {
+
+    'use strict';
+
+    // Define angular core.routing module
+    angular.module('core.routing', ['ui.router']);
+
+})();
+
+(function() {
+
+    'use strict';
+
+    // Define angular core.validator module
+    angular.module('core.validator', ['valdr']);
+
+})();
+
+(function() {
+
+    'use strict';
+
+    // Define angular app module
+    angular.module('app', ['core.routing', 'core.mocking', 'core.validator', 'ui.router']);
+
+})();
+
+(function() {
+
+    'use strict';
 
     // Pass the staticsRoute to the app
-    staticsRoute.$inject = ["routerHelper"];
-	angular
-	    .module('app')
-	    .run(staticsRoute);
+    angular
+        .module('app')
+        .run(staticsRoute);
 
 
-	// Define the staticsRoute
+    // Define the staticsRoute
     function staticsRoute(routerHelper) {
 
 
-		// Inject with ng-annotate
-		"ngInject";
+        // Inject with ng-annotate
+        "ngInject";
 
 
-    	// Intercept all the states and add them to the routing
-    	routerHelper.configureStates(getStates());
+        // Intercept all the states and add them to the routing
+        routerHelper.configureStates(getStates());
     }
 
 
     // Define the getStates
     function getStates() {
 
-		return [{
+        return [{
 
-		    state: 'statics-home',
-		    config: {
-		        url: '/',
-		        templateUrl: 'app/modules/statics/home/statics.home.html',
-		        controller: 'staticsHomeCtrl',
-		        controllerAs: 'staticsHome'
-		    }
-		}];
-	}
+            state: 'statics-home',
+            config: {
+                url: '/',
+                templateUrl: 'app/modules/statics/home/statics.home.html',
+                controller: 'staticsHomeCtrl',
+                controllerAs: 'staticsHome'
+            }
+        }];
+    }
 
 })();
 
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersFactory to the app
-    usersFactory.$inject = ["$http"];
     angular
         .module('app')
         .factory('usersFactory', usersFactory);
@@ -116,7 +126,9 @@
         function index() {
 
             return $http.get(userBase)
-                        .then(function(data){ return data; });
+                .then(function(data) {
+                    return data;
+                });
         }
 
 
@@ -124,7 +136,9 @@
         function show(id) {
 
             return $http.get(userBase + id)
-                        .then(function(data){ return data.data; });
+                .then(function(data) {
+                    return data.data;
+                });
         }
 
 
@@ -132,7 +146,9 @@
         function store(data) {
 
             return $http.post(userBase, data)
-                        .then(function(data){ return data.data; });
+                .then(function(data) {
+                    return data.data;
+                });
         }
 
 
@@ -140,7 +156,9 @@
         function update(id, data) {
 
             return $http.put(userBase + id, data)
-                        .then(function(data){ return data.data; });
+                .then(function(data) {
+                    return data.data;
+                });
         }
 
 
@@ -148,7 +166,9 @@
         function destroy(id) {
 
             return $http.delete(userBase + id)
-                        .then(function(data){ return data.data; });
+                .then(function(data) {
+                    return data.data;
+                });
         }
 
     }
@@ -157,16 +177,15 @@
 
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersMock to the app
-	usersMock.$inject = ["mockHelper"];
-	angular
-	    .module('app')
-	    .run(usersMock);
+    angular
+        .module('app')
+        .run(usersMock);
 
 
-	// Define the usersMock
+    // Define the usersMock
     function usersMock(mockHelper) {
 
 
@@ -188,114 +207,130 @@
         */
 
 
-    	setUsers();															            // Set the list of user
-    	mockHelper.configureMocks(getMocks()); 									        // Intercept all the api and add them to the httpBackend
+        setUsers(); // Set the list of user
+        mockHelper.configureMocks(getMocks()); // Intercept all the api and add them to the httpBackend
 
 
 
-	    /*
-	    |--------------------------------------------------------------------------
-	    | Functions
-	    |--------------------------------------------------------------------------
-	    |
-	    | Declaring all functions used in the usersMock
-	    |
-	    */
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersMock
+        |
+        */
 
 
-		// Function for destroy users API
-		function destroyRespond(method, url, data, headers, params) {
+        // Function for destroy users API
+        function destroyRespond(method, url, data, headers, params) {
 
             // Get the id param from url
             var id = url.split("/").pop();
 
-			// Get a random header
-			var header = randomHeader();
+            // Get a random header
+            var header = randomHeader();
 
-			// If the result will be 200, execute the operation
-			if(header == 200) {
+            // If the result will be 200, execute the operation
+            if (header == 200) {
 
                 // Delete user by id from user's array
-                for(var i = 0; i <= users.length - 1; i++) {
+                for (var i = 0; i <= users.length - 1; i++) {
 
                     // If user exists
-                    if(users[i].id == id) {
+                    if (users[i].id == id) {
 
                         // Delete  user
                         users.splice(i, 1);
 
                         // Return the success header
-                        return [header, {data: 'User removed'}];
-                    }
-                }
-
-				// Return the error header
-                return [header, {error: 'User not found'}];
-			}
-
-			// Return the error header
-			return [header, {error:'Error in user removing'}];
-		}
-
-
-		// Function for index users API
-		function indexRespond(method, url, data, headers, params) {
-
-			// Get a random header
-			var header = randomHeader();
-
-			// If the result will be 200, execute the operation
-			if(header == 200) {
-
-				// Return the success header
-                return [header, {data: users}];
-			}
-
-			// Return the error header
-			return [header, {error:'Error while listing users'}];
-		}
-
-
-		// Function for show users API
-		function showRespond(method, url, data, headers, params) {
-
-            // Get the id param from url
-            var id = url.split("/").pop();
-
-			// Get a random header
-			var header = randomHeader();
-
-			// If the result will be 200, execute the operation
-			if(header == 200) {
-
-                // Get user by id from user's array
-                for(var i = 0; i <= users.length - 1; i++) {
-
-                    // If user exists
-                    if(users[i].id == id) {
-
-                        // Return the success header
-                        return [header, {data: users[i]}];
+                        return [header, {
+                            data: 'User removed'
+                        }];
                     }
                 }
 
                 // Return the error header
-    			return [header, {error:'User not found'}];
-			}
+                return [header, {
+                    error: 'User not found'
+                }];
+            }
 
-			// Return the error header
-			return [header, {error:'Error showing user'}];
-		}
+            // Return the error header
+            return [header, {
+                error: 'Error in user removing'
+            }];
+        }
 
 
-		// Function for store users API
-		function storeRespond(method, url, data, headers, params) {
+        // Function for index users API
+        function indexRespond(method, url, data, headers, params) {
 
-			// Get a random header
-			var header = randomHeader();
+            // Get a random header
+            var header = randomHeader();
 
             // If the result will be 200, execute the operation
-			if(header == 200) {
+            if (header == 200) {
+
+                // Return the success header
+                return [header, {
+                    data: users
+                }];
+            }
+
+            // Return the error header
+            return [header, {
+                error: 'Error while listing users'
+            }];
+        }
+
+
+        // Function for show users API
+        function showRespond(method, url, data, headers, params) {
+
+            // Get the id param from url
+            var id = url.split("/").pop();
+
+            // Get a random header
+            var header = randomHeader();
+
+            // If the result will be 200, execute the operation
+            if (header == 200) {
+
+                // Get user by id from user's array
+                for (var i = 0; i <= users.length - 1; i++) {
+
+                    // If user exists
+                    if (users[i].id == id) {
+
+                        // Return the success header
+                        return [header, {
+                            data: users[i]
+                        }];
+                    }
+                }
+
+                // Return the error header
+                return [header, {
+                    error: 'User not found'
+                }];
+            }
+
+            // Return the error header
+            return [header, {
+                error: 'Error showing user'
+            }];
+        }
+
+
+        // Function for store users API
+        function storeRespond(method, url, data, headers, params) {
+
+            // Get a random header
+            var header = randomHeader();
+
+            // If the result will be 200, execute the operation
+            if (header == 200) {
 
                 // Assisgn user id - override if inserted
                 data.id = users.length;
@@ -304,153 +339,160 @@
                 users.push(data);
 
                 // Return the success header
-                return [header, {data: 'User stored'}];
+                return [header, {
+                    data: 'User stored'
+                }];
             }
 
-			// Return the error header
-			return [header, {error:'Error storing the user'}];
-		}
+            // Return the error header
+            return [header, {
+                error: 'Error storing the user'
+            }];
+        }
 
 
-		// Function for update users API
-		function updateRespond(method, url, data, headers, params) {
+        // Function for update users API
+        function updateRespond(method, url, data, headers, params) {
 
             // Get the id param from url
             var id = url.split("/").pop();
 
-			// Get a random header
-			var header = randomHeader();
+            // Get a random header
+            var header = randomHeader();
 
-			// If the result will be 200, execute the operation
-			if(header == 200) {
+            // If the result will be 200, execute the operation
+            if (header == 200) {
 
                 // Get user by id from user's array
-                for(var i = 0; i <= users.length - 1; i++) {
+                for (var i = 0; i <= users.length - 1; i++) {
 
                     // If user exists
-                    if(users[i].id == id) {
+                    if (users[i].id == id) {
 
                         // Override the user
                         users[i] = data;
 
                         // Return the success header
-                        return [header, {data: 'User updated'}];
+                        return [header, {
+                            data: 'User updated'
+                        }];
                     }
                 }
 
                 // Return the error header
-    			return [header, {error:'User not found'}];
-			}
+                return [header, {
+                    error: 'User not found'
+                }];
+            }
 
-			// Return the error header
-			return [header, {error:'Error updating user'}];
-		}
-
-
-		// Basic algorithm for random headers
-		function randomHeader(){
-
-			// Generate a random number from 1 to 10
-			var random = Math.floor((Math.random() * 10) + 1);
-
-			// Return 500 if random is 10
-			if(random == 10) {
-
-				return 500;
-			}
-
-			// Return 404 if random is 9
-			if(random == 9) {
-
-				return 404;
-			}
-
-			// Return 200
-			return 200;
-		}
+            // Return the error header
+            return [header, {
+                error: 'Error updating user'
+            }];
+        }
 
 
-		// Function that pass the array that will create the httpBackend
-	    function getMocks() {
+        // Basic algorithm for random headers
+        function randomHeader() {
 
-	    	// Object to pass for fake API
-			return [{
+            // Generate a random number from 1 to 10
+            var random = Math.floor((Math.random() * 10) + 1);
 
-				label: 'destroy',
-			    method: 'DELETE',
-			    url: /\/api\/users\/(d*)/,
-			    params: ['id'],
-			    respond: destroyRespond
+            // Return 500 if random is 10
+            if (random == 10) {
 
-			},{
+                return 500;
+            }
 
-				label: 'index',
-			    method: 'GET',
-			    url: '/api/users/',
-			    respond: indexRespond
+            // Return 404 if random is 9
+            if (random == 9) {
 
-			},{
+                return 404;
+            }
 
-				label: 'show',
-			    method: 'GET',
-			    url: /\/api\/users\/(d*)/,
-			    params: ['id'],
-			    respond: showRespond
-
-			},{
-
-				label: 'store',
-			    method: 'POST',
-			    url: '/api/users/',
-			    respond: storeRespond
-
-			},{
-
-				label: 'update',
-			    method: 'PUT',
-			    url: /\/api\/users\/(d*)/,
-			    params: ['id'],
-			    respond: updateRespond
-			}];
-		}
+            // Return 200
+            return 200;
+        }
 
 
-		// Function for set the array
-		function setUsers() {
+        // Function that pass the array that will create the httpBackend
+        function getMocks() {
+
+            // Object to pass for fake API
+            return [{
+
+                label: 'destroy',
+                method: 'DELETE',
+                url: /\/api\/users\/(d*)/,
+                params: ['id'],
+                respond: destroyRespond
+
+            }, {
+
+                label: 'index',
+                method: 'GET',
+                url: '/api/users/',
+                respond: indexRespond
+
+            }, {
+
+                label: 'show',
+                method: 'GET',
+                url: /\/api\/users\/(d*)/,
+                params: ['id'],
+                respond: showRespond
+
+            }, {
+
+                label: 'store',
+                method: 'POST',
+                url: '/api/users/',
+                respond: storeRespond
+
+            }, {
+
+                label: 'update',
+                method: 'PUT',
+                url: /\/api\/users\/(d*)/,
+                params: ['id'],
+                respond: updateRespond
+            }];
+        }
+
+
+        // Function for set the array
+        function setUsers() {
 
             users = [{
 
                 "id": 1,
                 "name": "Mario",
                 "surname": "Rossi"
-            },
-            {
+            }, {
                 "id": 2,
                 "name": "Luigi",
                 "surname": "Verdi"
-            },
-            {
+            }, {
                 "id": 3,
                 "name": "Furio",
                 "surname": "Bianchi"
             }];
-		}
-	}
+        }
+    }
 
 })();
 
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersRoute to the app
-    usersRoute.$inject = ["routerHelper"];
-	angular
-	    .module('app')
-	    .run(usersRoute);
+    angular
+        .module('app')
+        .run(usersRoute);
 
 
-	// Define the usersRoute
+    // Define the usersRoute
     function usersRoute(routerHelper) {
 
 
@@ -458,57 +500,131 @@
         "ngInject";
 
 
-    	// Intercept all the states and add them to the routing
-    	routerHelper.configureStates(getStates());
+        // Intercept all the states and add them to the routing
+        routerHelper.configureStates(getStates());
     }
 
 
     // Define the getStates
     function getStates() {
 
-		return [{
+        return [{
 
-		    state: 'users-index',
-		    config: {
-		        url: '/users',
-		        templateUrl: 'app/modules/users/index/users.index.html',
-		        controller: 'usersIndexCtrl',
-		        controllerAs: 'usersIndex'
-		    }
-		}, {
-		    state: 'users-store',
-		    config: {
-		        url: '/users/store',
-		        templateUrl: 'app/modules/users/store/users.store.html',
-		        controller: 'usersStoreCtrl',
-		        controllerAs: 'usersStore'
-		    }
-		}, {
-		    state: 'users-show',
-		    config: {
-		        url: '/users/:id',
-		        templateUrl: 'app/modules/users/show/users.show.html',
-		        controller: 'usersShowCtrl',
-		        controllerAs: 'usersShow'
-		    }
-		}, {
-		    state: 'users-update',
-		    config: {
-		        url: '/users/:id/update',
-		        templateUrl: 'app/modules/users/update/users.update.html',
-		        controller: 'usersUpdateCtrl',
-		        controllerAs: 'usersUpdate'
-		    }
-		}, {
-		    state: 'users-destroy',
-		    config: {
-		        url: '/users/:id/delete',
-		        templateUrl: 'app/modules/users/destroy/users.destroy.html',
-		        controller: 'usersDestroyCtrl',
-		        controllerAs: 'usersDestroy'
-		    }
-		}];
-	}
+            state: 'users-index',
+            config: {
+                url: '/users',
+                templateUrl: 'app/modules/users/index/users.index.html',
+                controller: 'usersIndexCtrl',
+                controllerAs: 'usersIndex'
+            }
+        }, {
+            state: 'users-store',
+            config: {
+                url: '/users/store',
+                templateUrl: 'app/modules/users/store/users.store.html',
+                controller: 'usersStoreCtrl',
+                controllerAs: 'usersStore'
+            }
+        }, {
+            state: 'users-show',
+            config: {
+                url: '/users/:id',
+                templateUrl: 'app/modules/users/show/users.show.html',
+                controller: 'usersShowCtrl',
+                controllerAs: 'usersShow'
+            }
+        }, {
+            state: 'users-update',
+            config: {
+                url: '/users/:id/update',
+                templateUrl: 'app/modules/users/update/users.update.html',
+                controller: 'usersUpdateCtrl',
+                controllerAs: 'usersUpdate'
+            }
+        }, {
+            state: 'users-destroy',
+            config: {
+                url: '/users/:id/delete',
+                templateUrl: 'app/modules/users/destroy/users.destroy.html',
+                controller: 'usersDestroyCtrl',
+                controllerAs: 'usersDestroy'
+            }
+        }];
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    // Pass the usersValidator to the app
+    angular
+        .module('app')
+        .run(usersValidator);
+
+
+    // Define the usersValidator
+    function usersValidator(validatorHelper) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Contrsucts function
+        |--------------------------------------------------------------------------
+        |
+        | All functions that should be init when the controller start
+        |
+        */
+
+
+        validatorHelper.configureValidators(getValidators()); // Intercept all the api and add them to the httpBackend
+
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Functions
+        |--------------------------------------------------------------------------
+        |
+        | Declaring all functions used in the usersValidator
+        |
+        */
+
+
+
+        // Function that pass the array that will create the model validator
+        function getValidators() {
+
+            // Object to pass with validation rules
+            return {
+                'User': {
+                    'lastName': {
+                        'size': {
+                            'min': 2,
+                            'max': 10,
+                            'message': 'Last name must be between 2 and 10 characters.'
+                        },
+                        'required': {
+                            'message': 'Last name is required.'
+                        }
+                    },
+                    'firstName': {
+                        'size': {
+                            'min': 2,
+                            'max': 20,
+                            'message': 'First name must be between 2 and 20 characters.'
+                        }
+                    }
+                }
+            };
+
+        }
+    }
 
 })();
 
@@ -587,165 +703,221 @@
     }
 })();
 
-(function(){
+(function() {
 
-	'use strict';
+    'use strict';
 
-	// Pass the mockHelperProvider to the app
-	angular
-		.module('core.mocking')
-		.provider('mockHelper', mockHelperProvider);
+    // Pass the mockHelperProvider to the app
+    angular
+        .module('core.mocking')
+        .provider('mockHelper', mockHelperProvider);
 
 
     // Define the mockHelperProvider
-	function mockHelperProvider() {
+    function mockHelperProvider() {
 
 
-		// Holds the service factory function
-		MockHelper.$inject = ["$httpBackend"];
-		this.$get = MockHelper;
+        // Holds the service factory function
+        this.$get = MockHelper;
 
 
-		// Define the mockHelperProvider
-		function MockHelper($httpBackend) {
+        // Define the mockHelperProvider
+        function MockHelper($httpBackend) {
 
 
-			// Inject with ng-annotate
-			"ngInject";
+            // Inject with ng-annotate
+            "ngInject";
 
 
-			// Pass through this extension
-			$httpBackend.whenGET(/\.html$/).passThrough();
-			$httpBackend.whenGET(/\.png$/).passThrough();
-			$httpBackend.whenGET(/\.svg$/).passThrough();
-			$httpBackend.whenGET(/\.jpg$/).passThrough();
-			$httpBackend.whenGET(/\.jpeg$/).passThrough();
-			$httpBackend.whenGET(/\.css$/).passThrough();
+            // Pass through this extension
+            $httpBackend.whenGET(/\.html$/).passThrough();
+            $httpBackend.whenGET(/\.png$/).passThrough();
+            $httpBackend.whenGET(/\.svg$/).passThrough();
+            $httpBackend.whenGET(/\.jpg$/).passThrough();
+            $httpBackend.whenGET(/\.jpeg$/).passThrough();
+            $httpBackend.whenGET(/\.css$/).passThrough();
 
 
-			// Define the object to return
-			var service = {
+            // Define the object to return
+            var service = {
 
-				configureMocks: configureMocks,		// Configure all the states for the route
-			};
-
-
-			// Return the object
-			return service;
+                configureMocks: configureMocks, // Configure all the states for the route
+            };
 
 
-	        /*
-	        |--------------------------------------------------------------------------
-	        | Functions
-	        |--------------------------------------------------------------------------
-	        |
-	        | Declaring all functions used in the MockHelper
-	        |
-	        */
+            // Return the object
+            return service;
 
 
-			// Configure all the mocks for the route
-			function configureMocks(mocks) {
-
-				// Foreach mocks, create a fake backend interaction
-				mocks.forEach(function(mock){
-
-					$httpBackend.when(mock.method, mock.url).respond(mock.respond);
-				});
-			}
-		}
-	}
-
-})();
-
-(function(){
-
-	'use strict';
-
-	// Pass the routerHelperProvider to the app
-	routerHelperProvider.$inject = ["$locationProvider", "$stateProvider", "$urlRouterProvider", "$urlMatcherFactoryProvider"];
-	angular
-		.module('core.routing')
-		.provider('routerHelper', routerHelperProvider);
+            /*
+            |--------------------------------------------------------------------------
+            | Functions
+            |--------------------------------------------------------------------------
+            |
+            | Declaring all functions used in the MockHelper
+            |
+            */
 
 
-    // Define the routerHelperProvider
-	function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
+            // Configure all the mocks for the route
+            function configureMocks(mocks) {
 
+                // Foreach mocks, create a fake backend interaction
+                mocks.forEach(function(mock) {
 
-		// Inject with ng-annotate
-		"ngInject";
-
-
-		// Holds the service factory function
-		RouterHelper.$inject = ["$state"];
-		this.$get = RouterHelper;
-
-
-		// Declare html5Mode true for a clean url
-		$locationProvider.html5Mode(true);
-
-
-		// Declare strict to false for remove trailing slash
-		$urlMatcherFactoryProvider.strictMode(false);
-
-
-		// Declare the otherwise, go here if no state is found
-		$urlRouterProvider.otherwise('/404');
-
-
-		// Define the routerHelperProvider
-		function RouterHelper($state) {
-
-
-			// Define the object to return
-			var service = {
-
-				configureStates: configureStates,			// Configure all the states for the route
-				getStates: getStates 						// Return the lists of states
-
-			};
-
-
-			// Return the object
-			return service;
-
-
-	        /*
-	        |--------------------------------------------------------------------------
-	        | Functions
-	        |--------------------------------------------------------------------------
-	        |
-	        | Declaring all functions used in the RouterHelper
-	        |
-	        */
-
-
-			// Configure all the states for the route
-			function configureStates(states) {
-
-				// Add to the routing the state passed trought array of objects
-				states.forEach(function(state) {
-
-					$stateProvider.state(state.state, state.config);
-
-				});
-			}
-
-
-			// Return the lists of states
-			function getStates() {
-
-				return $state.get();
-			}
-		}
-	}
+                    $httpBackend.when(mock.method, mock.url).respond(mock.respond);
+                });
+            }
+        }
+    }
 
 })();
 
 (function() {
 
-  'use strict';
+    'use strict';
+
+    // Pass the routerHelperProvider to the app
+    angular
+        .module('core.routing')
+        .provider('routerHelper', routerHelperProvider);
+
+
+    // Define the routerHelperProvider
+    function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Holds the service factory function
+        this.$get = RouterHelper;
+
+
+        // Declare html5Mode true for a clean url
+        $locationProvider.html5Mode(true);
+
+
+        // Declare strict to false for remove trailing slash
+        $urlMatcherFactoryProvider.strictMode(false);
+
+
+        // Declare the otherwise, go here if no state is found
+        $urlRouterProvider.otherwise('/404');
+
+
+        // Define the routerHelperProvider
+        function RouterHelper($state) {
+
+
+            // Define the object to return
+            var service = {
+
+                configureStates: configureStates, // Configure all the states for the route
+                getStates: getStates // Return the lists of states
+
+            };
+
+
+            // Return the object
+            return service;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Functions
+            |--------------------------------------------------------------------------
+            |
+            | Declaring all functions used in the RouterHelper
+            |
+            */
+
+
+            // Configure all the states for the route
+            function configureStates(states) {
+
+                // Add to the routing the state passed trought array of objects
+                states.forEach(function(state) {
+
+                    $stateProvider.state(state.state, state.config);
+
+                });
+            }
+
+
+            // Return the lists of states
+            function getStates() {
+
+                return $state.get();
+            }
+        }
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    // Pass the validatorHelperProvider to the app
+    angular
+        .module('core.validator')
+        .provider('validatorHelper', validatorHelperProvider);
+
+
+    // Define the validatorHelperProvider
+    function validatorHelperProvider(valdrProvider, valdrMessageProvider) {
+
+
+        // Inject with ng-annotate
+        "ngInject";
+
+
+        // Holds the service factory function
+        this.$get = validatorHelper;
+
+
+        // Define the validatorHelperProvider
+        function validatorHelper() {
+
+
+            valdrMessageProvider.setTemplate('<div class="valdr-message">{{ violation.message }}</div>');
+
+            // Define the object to return
+            var service = {
+
+                configureValidators: configureValidators, // Configure all models to validate
+            };
+
+
+            // Return the object
+            return service;
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Functions
+            |--------------------------------------------------------------------------
+            |
+            | Declaring all functions used in the ValidatorHelper
+            |
+            */
+
+
+            // Configure all the validators for the models
+            function configureValidators(validator) {
+
+                valdrProvider.addConstraints(validator);
+            }
+        }
+    }
+
+})();
+
+(function() {
+
+    'use strict';
 
     // Pass the staticsHomeCtrl to the app
     angular
@@ -763,8 +935,8 @@
 
         // Define staticsHome as this for ControllerAs and auto-$scope
         var staticsHome = this;
-            staticsHome.title =    "AngularJS-boilerplate";
-            staticsHome.content =  "A micro AngularJS boilerplate for start projects with mocking and routing modules ready, based on John Papa's style guide";
+        staticsHome.title = "AngularJS-boilerplate";
+        staticsHome.content = "A micro AngularJS boilerplate for start projects with mocking and routing modules ready, based on John Papa's style guide";
 
 
         /*
@@ -801,10 +973,9 @@
 
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersDestroyCtrl to the app
-    usersDestroyCtrl.$inject = ["usersFactory", "$stateParams"];
     angular
         .module('app')
         .controller('usersDestroyCtrl', usersDestroyCtrl);
@@ -823,8 +994,8 @@
 
 
         // Define the usersDestroy functions and objects that will be passed to the view
-        usersDestroy.user = {};                                                 // Object for show the user
-        usersDestroy.destroy = destroy;                                         // Delete a resource
+        usersDestroy.user = {}; // Object for show the user
+        usersDestroy.destroy = destroy; // Delete a resource
 
 
         /*
@@ -868,7 +1039,7 @@
 
             }, function(data) {
 
-            	// Custom function for error handling
+                // Custom function for error handling
                 console.log('Result form API with ERROR', data);
 
             });
@@ -900,10 +1071,9 @@
 
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersIndexCtrl to the app
-    usersIndexCtrl.$inject = ["usersFactory"];
     angular
         .module('app')
         .controller('usersIndexCtrl', usersIndexCtrl);
@@ -922,7 +1092,7 @@
 
 
         // Define the usersIndex functions and objects that will be passed to the view
-        usersIndex.users = [];                                              // Array for list of users
+        usersIndex.users = []; // Array for list of users
 
 
         /*
@@ -963,9 +1133,9 @@
                 // Custom function for success handling
                 console.log('Result form API with SUCCESS', data);
 
-            	// Assign data to array and return them
-	            usersIndex.users = data.data;
-	            return usersIndex.users;
+                // Assign data to array and return them
+                usersIndex.users = data.data;
+                return usersIndex.users;
 
             }, function(data) {
 
@@ -980,10 +1150,9 @@
 
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersShowCtrl to the app
-    usersShowCtrl.$inject = ["usersFactory", "$stateParams"];
     angular
         .module('app')
         .controller('usersShowCtrl', usersShowCtrl);
@@ -1002,7 +1171,7 @@
 
 
         // Define the usersShow functions and objects that will be passed to the view
-        usersShow.user = {};                                                // Object for show the user
+        usersShow.user = {}; // Object for show the user
 
 
         /*
@@ -1044,9 +1213,9 @@
                 // Custom function for success handling
                 console.log('Result form API with SUCCESS', data);
 
-            	// Assign data to array and return them
-	            usersShow.user = data;
-	            return usersShow.user;
+                // Assign data to array and return them
+                usersShow.user = data;
+                return usersShow.user;
 
             }, function(data) {
 
@@ -1061,10 +1230,9 @@
 
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersStoreCtrl to the app
-    usersStoreCtrl.$inject = ["usersFactory"];
     angular
         .module('app')
         .controller('usersStoreCtrl', usersStoreCtrl);
@@ -1083,7 +1251,7 @@
 
 
         // Define the usersStore functions and objects that will be passed to the view
-        usersStore.store = store;                                           // Store a resource
+        usersStore.store = store; // Store a resource
 
 
         /*
@@ -1137,10 +1305,9 @@
 
 (function() {
 
-  'use strict';
+    'use strict';
 
     // Pass the usersUpdateCtrl to the app
-    usersUpdateCtrl.$inject = ["usersFactory", "$stateParams"];
     angular
         .module('app')
         .controller('usersUpdateCtrl', usersUpdateCtrl);
@@ -1159,8 +1326,8 @@
 
 
         // Define the usersUpdate functions and objects that will be passed to the view
-        usersUpdate.user = {};                                                  // Object for show the user
-        usersUpdate.update = update;                                            // Update a resource
+        usersUpdate.user = {}; // Object for show the user
+        usersUpdate.update = update; // Update a resource
 
 
         /*
